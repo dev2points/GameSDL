@@ -1,25 +1,24 @@
 #pragma once
-
 #include <SDL.h>
-#include <SDL_image.h>
-#include <iostream>
+#include "background.h"
+#include "doge.h"
 
 class Game {
+public:
+    Game(int screenWidth, int screenHeight);
+    ~Game();
+
+    bool isRunning() const;
+    void handleEvents();
+    void update();
+    void render();
+    SDL_Renderer* getRenderer() { return renderer; }
+
 private:
     SDL_Window* window;
     SDL_Renderer* renderer;
     bool running;
-    const int screenWidth;
-    const int screenHeight;
 
-public:
-    Game(int width, int height);
-    ~Game();
-    void handleEvents();
-    void update();
-    void render();
-    bool isRunning() const;
-    SDL_Renderer* getRenderer() const;
+    Background* background;
+    Doge* doge;
 };
-
-

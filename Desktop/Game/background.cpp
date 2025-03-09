@@ -21,8 +21,11 @@ Background::~Background() {
 }
 
 void Background::update() {
-    scrollX -= 2;
-    if (scrollX <= -dest.w) scrollX = 0;
+    scrollX -= 1;
+    if (scrollX <= -dest.w){
+     counter ++;
+     scrollX = 0;
+    }
 
     src1 = { -scrollX, 0, screenWidth + scrollX, screenHeight };
     dest1 = { 0, 0, screenWidth + scrollX * screenWidth /dest.w, screenHeight };
