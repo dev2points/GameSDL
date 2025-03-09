@@ -1,0 +1,60 @@
+# depslib dependency file v1.0
+1741530144 source:c:\users\dell\desktop\game\main.cpp
+	"game.h"
+	"background.h"
+	"doge.h"
+
+1741530182 c:\users\dell\desktop\game\game.h
+	<SDL.h>
+	<SDL_image.h>
+	<iostream>
+
+1741530144 c:\users\dell\desktop\game\doge.h
+	<SDL.h>
+	<SDL_image.h>
+	<iostream>
+
+1741435662 c:\users\dell\desktop\game\lib.h
+	<SDL.h>
+	<SDL_image.h>
+	<SDL_ttf.h>
+	<string>
+	<vector>
+	<iostream>
+
+1622513909 c:\users\dell\desktop\game\pipe.h
+	"lib.h"
+	<iostream>
+	<vector>
+
+1622513909 c:\users\dell\desktop\game\land.h
+	"lib.h"
+	<vector>
+
+1739976578 c:\users\dell\desktop\game\sound.h
+	<SDL_mixer.h>
+	<string>
+	"lib.h"
+
+1741316239 source:c:\users\dell\desktop\homework.cpp
+	<iostream>
+	<iomanip>
+
+1741446957 source:c:\users\dell\desktop\game\background.cpp
+	"background.h"
+
+1741435662 source:c:\users\dell\desktop\game\lib.cpp
+	"lib.h"
+
+1741444934 c:\users\dell\desktop\game\background.h
+	<SDL.h>
+	<SDL_image.h>
+	<iostream>
+
+1741530194 source:c:\users\dell\desktop\game\game.cpp
+	"game.h"
+	"doge.h"
+
+1741530182 source:c:\users\dell\desktop\game\doge.cpp
+	"doge.h"
+
