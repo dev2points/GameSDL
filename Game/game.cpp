@@ -1,6 +1,7 @@
 #include "game.h"
 #include <iostream>
 
+
 Game::Game(int screenWidth, int screenHeight) {
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
         std::cout << "SDL Init Failed!\n";
@@ -25,16 +26,25 @@ Game::Game(int screenWidth, int screenHeight) {
     running = true;
 
     // Khởi tạo Background, Doge và Land
-    background = new Background(renderer, "assets/image/background_2.jpg", screenWidth, BACKGROUND_HEIGHT + 7);
+    background = new Background(renderer, "assets/image/background_3.jpg", screenWidth, BACKGROUND_HEIGHT + 7);
     doge = new Doge(renderer, "assets/image/shiba.png", 450, 50);
-    pipe = new Pipe(renderer,800);
-    land = new Land(renderer, "assets/image/land_2.jpg", screenWidth, BACKGROUND_HEIGHT);
+
+    // Khởi tạo 5 ống với khoảng cách nhau
+    for (int i = 0; i < 5; i++) {
+        pipes.push_back(new Pipe(renderer, 1080 + i * PIPE_SPACING));
+    }
+
+    //pipe = new Pipe(renderer,800);
+
+    land = new Land(renderer, "assets/image/land_3.jpg", screenWidth, BACKGROUND_HEIGHT);
 }
 
 Game::~Game() {
     delete background;
     delete doge;
+    for (auto& pipe : pipes) {
     delete pipe;
+    }
     delete land;
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
@@ -63,14 +73,24 @@ void Game::handleEvents() {
 void Game::update() {
     background->update();
     doge->update();
-    //land->update();
+
+    for (auto& pipe : pipes) {
+    pipe->update();
+}
+
+    land->update();
 }
 
 void Game::render() {
     SDL_RenderClear(renderer);
     background->render(renderer);
     doge->render(renderer);
+
+    for (auto& pipe : pipes) {
     pipe->render(renderer);
+    }
+
+    //pipe->render(renderer);
     land->render(renderer);
     SDL_RenderPresent(renderer);
 }

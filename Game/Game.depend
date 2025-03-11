@@ -78,27 +78,28 @@
 	<SDL_image.h>
 	<iostream>
 
-1741684208 c:\users\dell\flappydoge\game\game.h
+1741716562 c:\users\dell\flappydoge\game\game.h
 	<SDL.h>
+	<vector>
 	"background.h"
 	"doge.h"
 	"pipe.h"
 	"land.h"
 
-1741692672 source:c:\users\dell\flappydoge\game\game.cpp
+1741716651 source:c:\users\dell\flappydoge\game\game.cpp
 	"game.h"
 	<iostream>
 
 1741689878 source:c:\users\dell\flappydoge\game\main.cpp
 	"game.h"
 
-1741686019 source:c:\users\dell\flappydoge\game\pipe.cpp
+1741711266 source:c:\users\dell\flappydoge\game\pipe.cpp
 	"Pipe.h"
 	<cstdlib>
 	<ctime>
 	<iostream>
 
-1741683836 c:\users\dell\flappydoge\game\pipe.h
+1741711266 c:\users\dell\flappydoge\game\pipe.h
 	<SDL.h>
 	<SDL_image.h>
 
@@ -110,7 +111,7 @@
 
 1741684965 source:c:\users\dell\flappydoge\game\lib.cpp
 
-1741692510 source:c:\users\dell\flappydoge\game\land.cpp
+1741707813 source:c:\users\dell\flappydoge\game\land.cpp
 	"land.h"
 	<iostream>
 

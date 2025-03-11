@@ -5,7 +5,7 @@
 
 Pipe::Pipe(SDL_Renderer* renderer, int startX) {
     x = startX;
-    gapY = 200; // Vị trí khoảng trống giữa ống trên và dưới
+    gapY = rand() % 300 + 20; // Vị trí khoảng trống giữa ống trên và dưới
 
 
     upPipeTexture = IMG_LoadTexture(renderer, "assets/image/up_pipe.png");
@@ -26,7 +26,9 @@ void Pipe::update() {
 
     // Nếu ống ra khỏi màn hình, reset lại vị trí
     if (x + PIPE_WIDTH < 0) {
-        x = 800;  // Đưa ống về lại bên phải màn hình
+        x = 1080;  // Đưa ống về lại bên phải màn hình
+        gapY = rand() % 300 + 20;
+
     }
 }
 

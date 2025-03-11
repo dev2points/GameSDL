@@ -1,7 +1,7 @@
 #pragma once
 
 #include <SDL.h>
-
+#include <vector>
 #include "background.h"
 #include "doge.h"
 #include "pipe.h"
@@ -26,6 +26,7 @@ private:
 
     Background* background;
     Doge* doge;
+    std::vector<Pipe*> pipes;
     Pipe* pipe;
     Land* land;
 };

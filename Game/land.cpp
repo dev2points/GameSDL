@@ -25,7 +25,7 @@ Land::~Land() {
 }
 
 void Land::update() {
-    scrollX -= 1;
+    scrollX -= 3;
     if (scrollX <= -dest.w){
      counter ++;
      scrollX = 0;
