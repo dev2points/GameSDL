@@ -32,10 +32,10 @@ void Pipe::update() {
 
 void Pipe::render(SDL_Renderer* renderer) {
     SDL_Rect upPipesrc = {0, PIPE_HEIGHT - gapY, PIPE_WIDTH, gapY };
-    SDL_Rect lowPipesrc = {0, 0, PIPE_WIDTH, SCREEN_WIDTH - gapY - PIPE_GAP};
+    SDL_Rect lowPipesrc = {0, 0, PIPE_WIDTH,  600 - gapY - PIPE_GAP};
 
     SDL_Rect upPipedest = { x, 0 , PIPE_WIDTH, gapY};
-    SDL_Rect lowPipedest = { x, gapY + PIPE_GAP, PIPE_WIDTH, PIPE_HEIGHT };
+    SDL_Rect lowPipedest = { x, gapY + PIPE_GAP, PIPE_WIDTH,  600 - gapY - PIPE_GAP };
 
     SDL_RenderCopy(renderer, upPipeTexture, &upPipesrc, &upPipedest);
     SDL_RenderCopy(renderer, lowPipeTexture, &lowPipesrc, &lowPipedest);

@@ -62,53 +62,55 @@
 	<ctime>
 	<iostream>
 
-1741677478 source:c:\users\dell\flappydoge\game\background.cpp
+1741692461 source:c:\users\dell\flappydoge\game\background.cpp
 	"background.h"
 
-1741677478 c:\users\dell\flappydoge\game\background.h
+1741692105 c:\users\dell\flappydoge\game\background.h
 	<SDL.h>
 	<SDL_image.h>
 	<iostream>
 
-1741601608 source:c:\users\dell\flappydoge\game\doge.cpp
+1741681574 source:c:\users\dell\flappydoge\game\doge.cpp
 	"doge.h"
-	"game.h"
 
-1741630042 c:\users\dell\flappydoge\game\doge.h
+1741683594 c:\users\dell\flappydoge\game\doge.h
 	<SDL.h>
 	<SDL_image.h>
 	<iostream>
 
-1741681441 c:\users\dell\flappydoge\game\game.h
+1741684208 c:\users\dell\flappydoge\game\game.h
 	<SDL.h>
 	"background.h"
 	"doge.h"
 	"pipe.h"
 	"land.h"
 
-1741681461 source:c:\users\dell\flappydoge\game\game.cpp
+1741692473 source:c:\users\dell\flappydoge\game\game.cpp
 	"game.h"
 	<iostream>
 
-1741674951 source:c:\users\dell\flappydoge\game\main.cpp
-	"lib.h"
+1741689878 source:c:\users\dell\flappydoge\game\main.cpp
 	"game.h"
 
-1741676434 source:c:\users\dell\flappydoge\game\pipe.cpp
+1741686019 source:c:\users\dell\flappydoge\game\pipe.cpp
 	"Pipe.h"
 	<cstdlib>
 	<ctime>
 	<iostream>
 
-1741674951 c:\users\dell\flappydoge\game\pipe.h
-	"lib.h"
+1741683836 c:\users\dell\flappydoge\game\pipe.h
 	<SDL.h>
 	<SDL_image.h>
 
 1741677195 c:\users\dell\flappydoge\game\lib.h
 
-1741680530 c:\users\dell\flappydoge\game\land.h
-	"lib.h"
+1741690857 c:\users\dell\flappydoge\game\land.h
 	<SDL.h>
 	<SDL_image.h>
+
+1741684965 source:c:\users\dell\flappydoge\game\lib.cpp
+
+1741692510 source:c:\users\dell\flappydoge\game\land.cpp
+	"land.h"
+	<iostream>
 

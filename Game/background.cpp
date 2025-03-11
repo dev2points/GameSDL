@@ -12,6 +12,8 @@ Background::Background(SDL_Renderer* renderer, const char* filePath, int width, 
     screenHeight = height;
     scrollX = 0;
     SDL_QueryTexture(texture, NULL, NULL, &dest.w, &dest.h);
+    src1 = { -scrollX, 0, dest.w + scrollX, dest.h };
+    src2 = { 0, 0, -scrollX, dest.h };
     dest1 = {0, 0, screenWidth, screenHeight};
     dest2 = {screenWidth, 0, screenWidth, screenHeight};
 }
@@ -23,14 +25,13 @@ Background::~Background() {
 void Background::update() {
     scrollX -= 1;
     if (scrollX <= -dest.w){
-     counter ++;
      scrollX = 0;
     }
 
-    src1 = { -scrollX, 0, screenWidth + scrollX, screenHeight };
+    src1 = { -scrollX, 0, dest.w + scrollX, dest.h };
     dest1 = { 0, 0, screenWidth + scrollX * screenWidth /dest.w, screenHeight };
 
-    src2 = { 0, 0, -scrollX, screenHeight };
+    src2 = { 0, 0, -scrollX, dest.h };
     dest2 = { screenWidth + scrollX * screenWidth /dest.w, 0, -scrollX * screenWidth /dest.w, screenHeight };
 }
 

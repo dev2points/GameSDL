@@ -1,7 +1,7 @@
 #pragma once
 
 #include <SDL.h>
-//#include "lib.h"
+
 #include "background.h"
 #include "doge.h"
 #include "pipe.h"
@@ -19,6 +19,7 @@ public:
     SDL_Renderer* getRenderer() { return renderer; }
 
 private:
+
     SDL_Window* window;
     SDL_Renderer* renderer;
     bool running;

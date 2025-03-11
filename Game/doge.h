@@ -21,6 +21,11 @@ private:
 
 
 public:
+    static const int PIPE_WIDTH = 65;
+    static const int PIPE_GAP = 150; // Khoảng cách giữa 2 ống
+    static const int PIPE_SPEED = 2;
+    static const int PIPE_HEIGHT = 373;
+
     Doge(SDL_Renderer* renderer, const char* filePath, int startX, int startY);
     ~Doge();
     void jump();

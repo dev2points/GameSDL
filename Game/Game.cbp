@@ -2,7 +2,7 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="Game" />
+		<Option title="Flappy Doge" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
@@ -51,8 +51,8 @@
 		<Unit filename="doge.h" />
 		<Unit filename="game.cpp" />
 		<Unit filename="game.h" />
-		<Unit filename="lib.cpp" />
-		<Unit filename="lib.h" />
+		<Unit filename="land.cpp" />
+		<Unit filename="land.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="pipe.cpp" />
 		<Unit filename="pipe.h" />

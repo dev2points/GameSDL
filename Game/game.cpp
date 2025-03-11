@@ -8,7 +8,7 @@ Game::Game(int screenWidth, int screenHeight) {
         return;
     }
 
-    window = SDL_CreateWindow("Fly Doge", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, screenWidth, screenHeight, SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow("Flappy Doge", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, screenWidth, screenHeight, SDL_WINDOW_SHOWN);
     if (!window) {
         std::cout << "Window Creation Failed!\n";
         running = false;
@@ -25,16 +25,17 @@ Game::Game(int screenWidth, int screenHeight) {
     running = true;
 
     // Khởi tạo Background, Doge và Land
-    background = new Background(renderer, "assets/image/background_1.jpg", screenWidth, BACKGROUND_HEIGHT);
+    background = new Background(renderer, "assets/image/background_2.jpg", screenWidth, BACKGROUND_HEIGHT);
     doge = new Doge(renderer, "assets/image/shiba.png", 450, 50);
     pipe = new Pipe(renderer,800);
-    land = new Land(renderer, "assets/image/land_1.jpg", screenWidth, BACKGROUND_HEIGHT);
+    land = new Land(renderer, "assets/image/land_2.jpg", screenWidth, BACKGROUND_HEIGHT);
 }
 
 Game::~Game() {
     delete background;
     delete doge;
     delete pipe;
+    delete land;
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
@@ -62,6 +63,7 @@ void Game::handleEvents() {
 void Game::update() {
     background->update();
     doge->update();
+    //land->update();
 }
 
 void Game::render() {
@@ -69,6 +71,6 @@ void Game::render() {
     background->render(renderer);
     doge->render(renderer);
     pipe->render(renderer);
-    //land->render(renderer);
+    land->render(renderer);
     SDL_RenderPresent(renderer);
 }

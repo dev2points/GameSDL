@@ -1,15 +1,16 @@
 #pragma once
 
-#include "lib.h"
+
 #include <SDL.h>
 #include <SDL_image.h>
+//#include "game.h"
 
 class Land{
 private:
     SDL_Texture* texture;
     SDL_Rect src1, dest1, src2, dest2, dest;
-    int scrollX, counter = 0;
-    int Width, Height;
+    int scrollX, counter = 0, y;
+    int screenWidth, screenHeight;
 
 
 public:

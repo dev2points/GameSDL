@@ -1,6 +1,7 @@
-#include "lib.h"
-#include "game.h"
 
+#include "game.h"
+static const int SCREEN_WIDTH = 1080;
+static const int SCREEN_HEIGHT = 600;
 
 
 int main(int argc, char* argv[]) {
