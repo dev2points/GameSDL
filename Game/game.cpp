@@ -25,7 +25,7 @@ Game::Game(int screenWidth, int screenHeight) {
     running = true;
 
     // Khởi tạo Background, Doge và Land
-    background = new Background(renderer, "assets/image/background_2.jpg", screenWidth, BACKGROUND_HEIGHT);
+    background = new Background(renderer, "assets/image/background_2.jpg", screenWidth, BACKGROUND_HEIGHT + 7);
     doge = new Doge(renderer, "assets/image/shiba.png", 450, 50);
     pipe = new Pipe(renderer,800);
     land = new Land(renderer, "assets/image/land_2.jpg", screenWidth, BACKGROUND_HEIGHT);
