@@ -12,10 +12,10 @@ private:
     SDL_Texture* texture;
     SDL_Rect src, dest;
     int x, y,velocit;
-    int jumpForce = -9;
+    int jumpForce = -10;
     double gravity = 1;
     double velocity = 0.0;
-    double maxFallSpeed = 5.0;
+    double maxFallSpeed = 8.0;
     double angle = 0.0;
 
 

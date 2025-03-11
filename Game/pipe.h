@@ -1,5 +1,6 @@
 #pragma once
 
+#include "lib.h"
 #include <SDL.h>
 #include <SDL_image.h>
 
@@ -17,10 +18,6 @@ private:
     int gapY;  // Vị trí khoảng trống giữa ống trên và dưới
     SDL_Texture* upPipeTexture;
     SDL_Texture* lowPipeTexture;
-
-    static const int PIPE_WIDTH = 80;
-    static const int PIPE_GAP = 150; // Khoảng cách giữa 2 ống
-    static const int PIPE_SPEED = 5;
 };
 
 

@@ -1,8 +1,6 @@
 
 #include "doge.h"
-#include "game.h"
 
-extern Game game;
 
 Doge::Doge(SDL_Renderer* renderer, const char* filePath, int startX, int startY) {
     SDL_Surface* tempSurface = IMG_Load(filePath);

@@ -1,17 +1,9 @@
 #pragma once
 
-#include <SDL.h>
-#include <SDL_image.h>
-#include <SDL_ttf.h>
-#include <string>
-#include <vector>
-#include <iostream>
-
-using namespace std;
-
-class position
-{
-public:
-    short int x, y, angle, state;
-    void getPos(const short int x, const short int y);
-};
+static const int SCREEN_WIDTH = 1080;
+static const int SCREEN_HEIGHT = 600;
+static const int BACKGROUND_HEIGHT =490;
+static const int PIPE_WIDTH = 65;
+static const int PIPE_GAP = 150; // Khoảng cách giữa 2 ống
+static const int PIPE_SPEED = 2;
+static const int PIPE_HEIGHT = 373;

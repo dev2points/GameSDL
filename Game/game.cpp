@@ -24,15 +24,17 @@ Game::Game(int screenWidth, int screenHeight) {
 
     running = true;
 
-    // Khởi tạo Background và Doge
-    background = new Background(renderer, "assets/image/background_1.jpg", screenWidth, screenHeight);
+    // Khởi tạo Background, Doge và Land
+    background = new Background(renderer, "assets/image/background_1.jpg", screenWidth, BACKGROUND_HEIGHT);
     doge = new Doge(renderer, "assets/image/shiba.png", 450, 50);
+    pipe = new Pipe(renderer,800);
+    land = new Land(renderer, "assets/image/land_1.jpg", screenWidth, BACKGROUND_HEIGHT);
 }
 
 Game::~Game() {
     delete background;
     delete doge;
-
+    delete pipe;
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
@@ -66,5 +68,7 @@ void Game::render() {
     SDL_RenderClear(renderer);
     background->render(renderer);
     doge->render(renderer);
+    pipe->render(renderer);
+    //land->render(renderer);
     SDL_RenderPresent(renderer);
 }

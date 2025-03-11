@@ -1,7 +1,7 @@
+#include "lib.h"
 #include "game.h"
 
-const int SCREEN_WIDTH = 1080;
-const int SCREEN_HEIGHT = 540;
+
 
 int main(int argc, char* argv[]) {
     Game game(SCREEN_WIDTH, SCREEN_HEIGHT);

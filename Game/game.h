@@ -1,7 +1,11 @@
 #pragma once
+
 #include <SDL.h>
+//#include "lib.h"
 #include "background.h"
 #include "doge.h"
+#include "pipe.h"
+#include "land.h"
 
 class Game {
 public:
@@ -21,4 +25,6 @@ private:
 
     Background* background;
     Doge* doge;
+    Pipe* pipe;
+    Land* land;
 };
