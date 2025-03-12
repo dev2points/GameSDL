@@ -8,7 +8,7 @@ static const int PIPE_WIDTH = 65;
 static const int PIPE_GAP = 150; // Khoảng cách giữa 2 ống
 static const int PIPE_SPEED = 2;
 static const int PIPE_HEIGHT = 373;
-static const int PIPE_SPACING = 216;
+static const int PIPE_SPACING = 286;
 
 class Pipe {
 public:

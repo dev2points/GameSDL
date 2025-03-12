@@ -13,6 +13,7 @@ public:
     ~Game();
 
     bool isRunning() const;
+    bool isPlay() ;
     void handleEvents();
     void update();
     void render();
@@ -22,9 +23,10 @@ private:
 
     SDL_Window* window;
     SDL_Renderer* renderer;
-    bool running;
+    bool running,play;
 
     Background* background;
+    Background* message;
     Doge* doge;
     std::vector<Pipe*> pipes;
     Pipe* pipe;

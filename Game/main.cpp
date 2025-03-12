@@ -1,5 +1,7 @@
 
 #include "game.h"
+#include "background.h"
+
 static const int SCREEN_WIDTH = 1080;
 static const int SCREEN_HEIGHT = 600;
 
@@ -16,7 +18,7 @@ int main(int argc, char* argv[]) {
     while (game.isRunning()) {
         frameStart = SDL_GetTicks();
         game.handleEvents();
-        game.update();
+        if(game.isPlay()) game.update();
         game.render();
 
         frameTime = SDL_GetTicks() - frameStart;

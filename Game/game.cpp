@@ -22,21 +22,20 @@ Game::Game(int screenWidth, int screenHeight) {
         running = false;
         return;
     }
-
-    running = true;
+    play = false; // Kiểm tra trạng thái bắt đầu chơi
+    running = true; //  Trạng thái bắt đầu chạy
 
     // Khởi tạo Background, Doge và Land
-    background = new Background(renderer, "assets/image/background_3.jpg", screenWidth, BACKGROUND_HEIGHT + 7);
-    doge = new Doge(renderer, "assets/image/shiba.png", 450, 50);
+    background = new Background(renderer, "assets/image/background_2.jpg", screenWidth, BACKGROUND_HEIGHT + 7, 1);
+    message = new Background(renderer, "assets/image/message.png", (screenWidth - MESSAGE_WIDTH) / 2, (screenHeight - MESSAGE_HEIGHT) / 2, 0);
+    doge = new Doge(renderer, "assets/image/shiba.png", 507, 285);
 
-    // Khởi tạo 5 ống với khoảng cách nhau
-    for (int i = 0; i < 5; i++) {
+    // Khởi tạo 4 ống với khoảng cách nhau
+    for (int i = 0; i < 4; i++) {
         pipes.push_back(new Pipe(renderer, 1080 + i * PIPE_SPACING));
     }
 
-    //pipe = new Pipe(renderer,800);
-
-    land = new Land(renderer, "assets/image/land_3.jpg", screenWidth, BACKGROUND_HEIGHT);
+    land = new Land(renderer, "assets/image/land_2.jpg", screenWidth, BACKGROUND_HEIGHT);
 }
 
 Game::~Game() {
@@ -49,6 +48,9 @@ Game::~Game() {
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
+}
+bool Game::isPlay() {
+    return play;
 }
 
 bool Game::isRunning() const {
@@ -63,6 +65,7 @@ void Game::handleEvents() {
         }
         if (event.type == SDL_MOUSEBUTTONDOWN ||
             (event.type == SDL_KEYDOWN && (event.key.keysym.sym == SDLK_SPACE || event.key.keysym.sym == SDLK_UP))) {
+            play = true;
             if (doge) {
                 doge->jump();
             }
@@ -73,11 +76,9 @@ void Game::handleEvents() {
 void Game::update() {
     background->update();
     doge->update();
-
     for (auto& pipe : pipes) {
     pipe->update();
-}
-
+    }
     land->update();
 }
 
@@ -85,12 +86,10 @@ void Game::render() {
     SDL_RenderClear(renderer);
     background->render(renderer);
     doge->render(renderer);
-
+    if(!play) message->render(renderer);
     for (auto& pipe : pipes) {
     pipe->render(renderer);
     }
-
-    //pipe->render(renderer);
     land->render(renderer);
     SDL_RenderPresent(renderer);
 }

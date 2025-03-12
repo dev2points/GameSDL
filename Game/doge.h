@@ -11,7 +11,7 @@ class Doge {
 private:
     SDL_Texture* texture;
     SDL_Rect src, dest;
-    int x, y,velocit;
+    int x, y;
     int jumpForce = -10;
     double gravity = 1;
     double velocity = 0.0;
@@ -26,6 +26,8 @@ public:
     static const int PIPE_SPEED = 2;
     static const int PIPE_HEIGHT = 373;
 
+    int getX();
+    int getY();
     Doge(SDL_Renderer* renderer, const char* filePath, int startX, int startY);
     ~Doge();
     void jump();

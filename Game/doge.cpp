@@ -24,11 +24,18 @@ Doge::~Doge() {
     SDL_DestroyTexture(texture);
 }
 
+ int Doge::getX(){
+    return x;
+ }
+
+ int Doge::getY(){
+    return y;
+ }
+
 void Doge::jump() {
     velocity = jumpForce;
     angle = -20.0;
 }
-
 
 void Doge::update() {
     //trọng lực rơi
@@ -42,8 +49,6 @@ void Doge::update() {
         if (angle > 90) angle = 90; // không xoay quá 90 độ
     }
 }
-
-
 
 void Doge::render(SDL_Renderer* renderer) {
     SDL_RenderCopyEx(renderer, texture, &src, &dest, angle, nullptr, SDL_FLIP_NONE);
