@@ -1,50 +1,50 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\DELL\\Desktop\\Flappy_Doge\\",
+  "WorkspaceRootPath": "C:\\Users\\DELL\\Desktop\\Game\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{527B9A2D-A0EF-4AA6-88AA-2EB8C3DCEEFE}|Flappy_Doge.vcxproj|C:\\Users\\DELL\\Desktop\\Flappy_Doge\\doge.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{527B9A2D-A0EF-4AA6-88AA-2EB8C3DCEEFE}|Flappy_Doge.vcxproj|solutionrelative:doge.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{527B9A2D-A0EF-4AA6-88AA-2EB8C3DCEEFE}|Flappy_Doge.vcxproj|C:\\Users\\DELL\\Desktop\\Flappy_Doge\\doge.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{527B9A2D-A0EF-4AA6-88AA-2EB8C3DCEEFE}|Flappy_Doge.vcxproj|solutionrelative:doge.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{527B9A2D-A0EF-4AA6-88AA-2EB8C3DCEEFE}|Flappy_Doge.vcxproj|C:\\Users\\DELL\\Desktop\\Flappy_Doge\\pipe.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{527B9A2D-A0EF-4AA6-88AA-2EB8C3DCEEFE}|Flappy_Doge.vcxproj|solutionrelative:pipe.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{527B9A2D-A0EF-4AA6-88AA-2EB8C3DCEEFE}|Flappy_Doge.vcxproj|C:\\Users\\DELL\\Desktop\\Flappy_Doge\\game.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{527B9A2D-A0EF-4AA6-88AA-2EB8C3DCEEFE}|Flappy_Doge.vcxproj|C:\\Users\\DELL\\Desktop\\Game\\game.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{527B9A2D-A0EF-4AA6-88AA-2EB8C3DCEEFE}|Flappy_Doge.vcxproj|solutionrelative:game.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{527B9A2D-A0EF-4AA6-88AA-2EB8C3DCEEFE}|Flappy_Doge.vcxproj|C:\\Users\\DELL\\Desktop\\Flappy_Doge\\game.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{527B9A2D-A0EF-4AA6-88AA-2EB8C3DCEEFE}|Flappy_Doge.vcxproj|solutionrelative:game.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{527B9A2D-A0EF-4AA6-88AA-2EB8C3DCEEFE}|Flappy_Doge.vcxproj|C:\\Users\\DELL\\Desktop\\Flappy_Doge\\land.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{527B9A2D-A0EF-4AA6-88AA-2EB8C3DCEEFE}|Flappy_Doge.vcxproj|C:\\Users\\DELL\\Desktop\\Game\\land.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{527B9A2D-A0EF-4AA6-88AA-2EB8C3DCEEFE}|Flappy_Doge.vcxproj|solutionrelative:land.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{527B9A2D-A0EF-4AA6-88AA-2EB8C3DCEEFE}|Flappy_Doge.vcxproj|C:\\Users\\DELL\\Desktop\\Flappy_Doge\\background.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{527B9A2D-A0EF-4AA6-88AA-2EB8C3DCEEFE}|Flappy_Doge.vcxproj|solutionrelative:background.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{527B9A2D-A0EF-4AA6-88AA-2EB8C3DCEEFE}|Flappy_Doge.vcxproj|C:\\Users\\DELL\\Desktop\\Flappy_Doge\\pipe.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{527B9A2D-A0EF-4AA6-88AA-2EB8C3DCEEFE}|Flappy_Doge.vcxproj|solutionrelative:pipe.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{527B9A2D-A0EF-4AA6-88AA-2EB8C3DCEEFE}|Flappy_Doge.vcxproj|C:\\Users\\DELL\\Desktop\\Flappy_Doge\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{527B9A2D-A0EF-4AA6-88AA-2EB8C3DCEEFE}|Flappy_Doge.vcxproj|solutionrelative:main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{527B9A2D-A0EF-4AA6-88AA-2EB8C3DCEEFE}|Flappy_Doge.vcxproj|C:\\Users\\DELL\\Desktop\\Flappy_Doge\\land.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{527B9A2D-A0EF-4AA6-88AA-2EB8C3DCEEFE}|Flappy_Doge.vcxproj|C:\\Users\\DELL\\Desktop\\Game\\land.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{527B9A2D-A0EF-4AA6-88AA-2EB8C3DCEEFE}|Flappy_Doge.vcxproj|solutionrelative:land.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{527B9A2D-A0EF-4AA6-88AA-2EB8C3DCEEFE}|Flappy_Doge.vcxproj|C:\\Users\\DELL\\Desktop\\Flappy_Doge\\background.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{527B9A2D-A0EF-4AA6-88AA-2EB8C3DCEEFE}|Flappy_Doge.vcxproj|C:\\Users\\DELL\\Desktop\\Game\\doge.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{527B9A2D-A0EF-4AA6-88AA-2EB8C3DCEEFE}|Flappy_Doge.vcxproj|solutionrelative:doge.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{527B9A2D-A0EF-4AA6-88AA-2EB8C3DCEEFE}|Flappy_Doge.vcxproj|C:\\Users\\DELL\\Desktop\\Game\\pipe.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{527B9A2D-A0EF-4AA6-88AA-2EB8C3DCEEFE}|Flappy_Doge.vcxproj|solutionrelative:pipe.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{527B9A2D-A0EF-4AA6-88AA-2EB8C3DCEEFE}|Flappy_Doge.vcxproj|C:\\Users\\DELL\\Desktop\\Game\\doge.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{527B9A2D-A0EF-4AA6-88AA-2EB8C3DCEEFE}|Flappy_Doge.vcxproj|solutionrelative:doge.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{527B9A2D-A0EF-4AA6-88AA-2EB8C3DCEEFE}|Flappy_Doge.vcxproj|C:\\Users\\DELL\\Desktop\\Game\\background.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{527B9A2D-A0EF-4AA6-88AA-2EB8C3DCEEFE}|Flappy_Doge.vcxproj|solutionrelative:background.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{527B9A2D-A0EF-4AA6-88AA-2EB8C3DCEEFE}|Flappy_Doge.vcxproj|C:\\Users\\DELL\\Desktop\\Game\\background.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{527B9A2D-A0EF-4AA6-88AA-2EB8C3DCEEFE}|Flappy_Doge.vcxproj|solutionrelative:background.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{527B9A2D-A0EF-4AA6-88AA-2EB8C3DCEEFE}|Flappy_Doge.vcxproj|C:\\Users\\DELL\\Desktop\\Game\\pipe.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{527B9A2D-A0EF-4AA6-88AA-2EB8C3DCEEFE}|Flappy_Doge.vcxproj|solutionrelative:pipe.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{527B9A2D-A0EF-4AA6-88AA-2EB8C3DCEEFE}|Flappy_Doge.vcxproj|C:\\Users\\DELL\\Desktop\\Game\\game.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{527B9A2D-A0EF-4AA6-88AA-2EB8C3DCEEFE}|Flappy_Doge.vcxproj|solutionrelative:game.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{527B9A2D-A0EF-4AA6-88AA-2EB8C3DCEEFE}|Flappy_Doge.vcxproj|C:\\Users\\DELL\\Desktop\\Game\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{527B9A2D-A0EF-4AA6-88AA-2EB8C3DCEEFE}|Flappy_Doge.vcxproj|solutionrelative:main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -54,151 +54,141 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 8,
               "Title": "pipe.cpp",
-              "DocumentMoniker": "C:\\Users\\DELL\\Desktop\\Flappy_Doge\\pipe.cpp",
+              "DocumentMoniker": "C:\\Users\\DELL\\Desktop\\Game\\pipe.cpp",
               "RelativeDocumentMoniker": "pipe.cpp",
-              "ToolTip": "C:\\Users\\DELL\\Desktop\\Flappy_Doge\\pipe.cpp",
+              "ToolTip": "C:\\Users\\DELL\\Desktop\\Game\\pipe.cpp",
               "RelativeToolTip": "pipe.cpp",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-03-13T14:06:58.049Z",
-              "IsPinned": true,
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "doge.h",
-              "DocumentMoniker": "C:\\Users\\DELL\\Desktop\\Flappy_Doge\\doge.h",
-              "RelativeDocumentMoniker": "doge.h",
-              "ToolTip": "C:\\Users\\DELL\\Desktop\\Flappy_Doge\\doge.h",
-              "RelativeToolTip": "doge.h",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAAA8AAAANAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-03-13T14:08:15.924Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "doge.cpp",
-              "DocumentMoniker": "C:\\Users\\DELL\\Desktop\\Flappy_Doge\\doge.cpp",
-              "RelativeDocumentMoniker": "doge.cpp",
-              "ToolTip": "C:\\Users\\DELL\\Desktop\\Flappy_Doge\\doge.cpp",
-              "RelativeToolTip": "doge.cpp",
-              "ViewState": "AgIAAA0AAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-03-13T14:06:50.28Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "game.h",
-              "DocumentMoniker": "C:\\Users\\DELL\\Desktop\\Flappy_Doge\\game.h",
-              "RelativeDocumentMoniker": "game.h",
-              "ToolTip": "C:\\Users\\DELL\\Desktop\\Flappy_Doge\\game.h",
-              "RelativeToolTip": "game.h",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAABgAAAAXAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-03-13T14:12:42.472Z",
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
+              "Title": "doge.h",
+              "DocumentMoniker": "C:\\Users\\DELL\\Desktop\\Game\\doge.h",
+              "RelativeDocumentMoniker": "doge.h",
+              "ToolTip": "C:\\Users\\DELL\\Desktop\\Game\\doge.h",
+              "RelativeToolTip": "doge.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-03-13T14:08:15.924Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "doge.cpp",
+              "DocumentMoniker": "C:\\Users\\DELL\\Desktop\\Game\\doge.cpp",
+              "RelativeDocumentMoniker": "doge.cpp",
+              "ToolTip": "C:\\Users\\DELL\\Desktop\\Game\\doge.cpp",
+              "RelativeToolTip": "doge.cpp",
+              "ViewState": "AgIAAB8AAAAAAAAAAAAYwCsAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-03-13T14:06:50.28Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "game.h",
+              "DocumentMoniker": "C:\\Users\\DELL\\Desktop\\Game\\game.h",
+              "RelativeDocumentMoniker": "game.h",
+              "ToolTip": "C:\\Users\\DELL\\Desktop\\Game\\game.h",
+              "RelativeToolTip": "game.h",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABgAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-03-13T14:12:42.472Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
               "Title": "game.cpp",
-              "DocumentMoniker": "C:\\Users\\DELL\\Desktop\\Flappy_Doge\\game.cpp",
+              "DocumentMoniker": "C:\\Users\\DELL\\Desktop\\Game\\game.cpp",
               "RelativeDocumentMoniker": "game.cpp",
-              "ToolTip": "C:\\Users\\DELL\\Desktop\\Flappy_Doge\\game.cpp",
+              "ToolTip": "C:\\Users\\DELL\\Desktop\\Game\\game.cpp",
               "RelativeToolTip": "game.cpp",
-              "ViewState": "AgIAABIAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAACAAAAAAAAAAAAAlwDEAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-03-13T14:12:37.504Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 10,
               "Title": "main.cpp",
-              "DocumentMoniker": "C:\\Users\\DELL\\Desktop\\Flappy_Doge\\main.cpp",
+              "DocumentMoniker": "C:\\Users\\DELL\\Desktop\\Game\\main.cpp",
               "RelativeDocumentMoniker": "main.cpp",
-              "ToolTip": "C:\\Users\\DELL\\Desktop\\Flappy_Doge\\main.cpp",
+              "ToolTip": "C:\\Users\\DELL\\Desktop\\Game\\main.cpp",
               "RelativeToolTip": "main.cpp",
               "ViewState": "AgIAABUAAAAAAAAAAAAAAA0AAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-03-13T13:45:39.978Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-13T13:45:39.978Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "pipe.h",
+              "DocumentMoniker": "C:\\Users\\DELL\\Desktop\\Game\\pipe.h",
+              "RelativeDocumentMoniker": "pipe.h",
+              "ToolTip": "C:\\Users\\DELL\\Desktop\\Game\\pipe.h",
+              "RelativeToolTip": "pipe.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-03-13T14:08:26.796Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "land.h",
+              "DocumentMoniker": "C:\\Users\\DELL\\Desktop\\Game\\land.h",
+              "RelativeDocumentMoniker": "land.h",
+              "ToolTip": "C:\\Users\\DELL\\Desktop\\Game\\land.h",
+              "RelativeToolTip": "land.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-03-13T14:07:57.893Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "land.cpp",
+              "DocumentMoniker": "C:\\Users\\DELL\\Desktop\\Game\\land.cpp",
+              "RelativeDocumentMoniker": "land.cpp",
+              "ToolTip": "C:\\Users\\DELL\\Desktop\\Game\\land.cpp",
+              "RelativeToolTip": "land.cpp",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAlwBMAAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-03-13T14:07:48.497Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 7,
-              "Title": "pipe.h",
-              "DocumentMoniker": "C:\\Users\\DELL\\Desktop\\Flappy_Doge\\pipe.h",
-              "RelativeDocumentMoniker": "pipe.h",
-              "ToolTip": "C:\\Users\\DELL\\Desktop\\Flappy_Doge\\pipe.h",
-              "RelativeToolTip": "pipe.h",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAwAwAAAAAAAAAAAAAAA==",
+              "Title": "background.h",
+              "DocumentMoniker": "C:\\Users\\DELL\\Desktop\\Game\\background.h",
+              "RelativeDocumentMoniker": "background.h",
+              "ToolTip": "C:\\Users\\DELL\\Desktop\\Game\\background.h",
+              "RelativeToolTip": "background.h",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAgAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-03-13T14:08:26.796Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "land.h",
-              "DocumentMoniker": "C:\\Users\\DELL\\Desktop\\Flappy_Doge\\land.h",
-              "RelativeDocumentMoniker": "land.h",
-              "ToolTip": "C:\\Users\\DELL\\Desktop\\Flappy_Doge\\land.h",
-              "RelativeToolTip": "land.h",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAABgAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-03-13T14:07:57.893Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "land.cpp",
-              "DocumentMoniker": "C:\\Users\\DELL\\Desktop\\Flappy_Doge\\land.cpp",
-              "RelativeDocumentMoniker": "land.cpp",
-              "ToolTip": "C:\\Users\\DELL\\Desktop\\Flappy_Doge\\land.cpp",
-              "RelativeToolTip": "land.cpp",
-              "ViewState": "AgIAABsAAAAAAAAAAAAAAAUAAAAGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-03-13T14:07:48.497Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-13T14:08:05.631Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "background.h",
-              "DocumentMoniker": "C:\\Users\\DELL\\Desktop\\Flappy_Doge\\background.h",
-              "RelativeDocumentMoniker": "background.h",
-              "ToolTip": "C:\\Users\\DELL\\Desktop\\Flappy_Doge\\background.h",
-              "RelativeToolTip": "background.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAkAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-03-13T14:08:05.631Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
               "Title": "background.cpp",
-              "DocumentMoniker": "C:\\Users\\DELL\\Desktop\\Flappy_Doge\\background.cpp",
+              "DocumentMoniker": "C:\\Users\\DELL\\Desktop\\Game\\background.cpp",
               "RelativeDocumentMoniker": "background.cpp",
-              "ToolTip": "C:\\Users\\DELL\\Desktop\\Flappy_Doge\\background.cpp",
+              "ToolTip": "C:\\Users\\DELL\\Desktop\\Game\\background.cpp",
               "RelativeToolTip": "background.cpp",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAAAQAAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2025-03-13T14:06:46.353Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-13T14:06:46.353Z"
             }
           ]
         }

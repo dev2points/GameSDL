@@ -43,7 +43,7 @@ Game::Game(int screenWidth, int screenHeight) {
     background = new Background(renderer, "assets/image/background_2.jpg", screenWidth, BACKGROUND_HEIGHT + 7, 0);
     message = new Background(renderer, "assets/image/message.png", (screenWidth - MESSAGE_WIDTH) / 2, (screenHeight - MESSAGE_HEIGHT) / 2, 1);
     doge = new Doge(renderer, "assets/image/shiba.png", 507, 285);
-    game_over = new Background(renderer, "assets/image/gameOver.png", (screenWidth - GAME_OVER_WIDTH) / 2, (screenHeight - GAME_OVER_HEIGHT) / 2 -50, 1);
+    game_over = new Background(renderer, "assets/image/gameOver.png", (screenWidth - 250) / 2, (screenHeight - 209) / 2 -50, 1);
     replay = new Background(renderer, "assets/image/replay.png", (screenWidth - 100) / 2, (screenHeight - 56) / 2 + 100 , 1);
 
     // Khởi tạo 4 ống với khoảng cách nhau
