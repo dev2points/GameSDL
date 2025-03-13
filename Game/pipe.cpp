@@ -1,18 +1,17 @@
-#include "Pipe.h"
+﻿#include "Pipe.h"
 #include <cstdlib>  // Để sử dụng rand()
 #include <ctime>
 #include <iostream>
 
 Pipe::Pipe(SDL_Renderer* renderer, int startX) {
     x = startX;
-    gapY = rand() % 300 + 20; // Vị trí khoảng trống giữa ống trên và dưới
-
+    gapY = rand() % 230 + 20; // Vị trí khoảng trống giữa ống trên và dưới
 
     upPipeTexture = IMG_LoadTexture(renderer, "assets/image/up_pipe.png");
     lowPipeTexture = IMG_LoadTexture(renderer, "assets/image/low_pipe.png");
 
     if (!upPipeTexture || !lowPipeTexture) {
-        std::cout<<"Lỗi load pipe: "<< IMG_GetError();
+        std::cout << "Lỗi load pipe: " << IMG_GetError();
     }
 }
 
@@ -32,11 +31,15 @@ void Pipe::update() {
     }
 }
 
-void Pipe::render(SDL_Renderer* renderer) {
-    SDL_Rect upPipesrc = {0, PIPE_HEIGHT - gapY, PIPE_WIDTH, gapY };
-    SDL_Rect lowPipesrc = {0, 0, PIPE_WIDTH,  600 - gapY - PIPE_GAP};
+int Pipe::getgapY() {
+    return gapY;
+}
 
-    SDL_Rect upPipedest = { x, 0 , PIPE_WIDTH, gapY};
+void Pipe::render(SDL_Renderer* renderer) {
+    SDL_Rect upPipesrc = { 0, PIPE_HEIGHT - gapY, PIPE_WIDTH, gapY };
+    SDL_Rect lowPipesrc = { 0, 0, PIPE_WIDTH,  600 - gapY - PIPE_GAP };
+
+    SDL_Rect upPipedest = { x, 0 , PIPE_WIDTH, gapY };
     SDL_Rect lowPipedest = { x, gapY + PIPE_GAP, PIPE_WIDTH,  600 - gapY - PIPE_GAP };
 
     SDL_RenderCopy(renderer, upPipeTexture, &upPipesrc, &upPipedest);

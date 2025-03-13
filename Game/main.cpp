@@ -10,7 +10,7 @@ int main(int argc, char* argv[]) {
     Game game(SCREEN_WIDTH, SCREEN_HEIGHT);
     if (!game.isRunning()) return -1;
 
-    const int FPS = 60;
+    int FPS = 50;
     const int frameDelay = 1000 / FPS;
     Uint32 frameStart;
     int frameTime;
@@ -18,9 +18,9 @@ int main(int argc, char* argv[]) {
     while (game.isRunning()) {
         frameStart = SDL_GetTicks();
         game.handleEvents();
-        if(game.isPlay()) game.update();
+        if (game.isPlay() && !game.isLose()) game.update();
+        game.check();
         game.render();
-
         frameTime = SDL_GetTicks() - frameStart;
         if (frameDelay > frameTime) {
             SDL_Delay(frameDelay - frameTime);

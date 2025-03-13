@@ -1,9 +1,11 @@
-#pragma once
+﻿#pragma once
 
 #include <SDL.h>
 #include <SDL_image.h>
 #include <iostream>
 
+const static int DOGE_HEIGHT = 35;
+const static int DOGE_WIDTH = 50;
 
 
 

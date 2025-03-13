@@ -8,8 +8,6 @@ static const int BACKGROUND_HEIGHT =490;
 static const int MESSAGE_HEIGHT =204;
 static const int MESSAGE_WIDTH =225;
 
-
-
 class Background {
 private:
     SDL_Texture* texture;

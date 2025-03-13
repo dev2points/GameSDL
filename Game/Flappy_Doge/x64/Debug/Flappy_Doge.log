@@ -1,0 +1,8 @@
+﻿  doge.cpp
+C:\Users\DELL\Desktop\Flappy_Doge\doge.cpp(8,22): warning C4566: character represented by universal-character-name '\u1ED7' cannot be represented in the current code page (1252)
+C:\Users\DELL\Desktop\Flappy_Doge\doge.cpp(8,22): warning C4566: character represented by universal-character-name '\u1EA3' cannot be represented in the current code page (1252)
+C:\Users\DELL\Desktop\Flappy_Doge\doge.cpp(44,15): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
+  game.cpp
+  main.cpp
+  Generating Code...
+  Flappy_Doge.vcxproj -> C:\Users\DELL\Desktop\Flappy_Doge\x64\Debug\Flappy_Doge.exe

@@ -1,4 +1,4 @@
-
+﻿
 #include "doge.h"
 
 
@@ -14,23 +14,23 @@ Doge::Doge(SDL_Renderer* renderer, const char* filePath, int startX, int startY)
 
     x = startX;
     y = startY;
-    src = {0, 0, 0, 0};
-    SDL_QueryTexture(texture, NULL, NULL, &src.w, &src.h);
+   
+    src = { 0, 0, DOGE_WIDTH, DOGE_HEIGHT };
 
-    dest = {x, y, src.w, src.h};
+    dest = { startX, startY, DOGE_WIDTH, DOGE_HEIGHT };
 }
 
 Doge::~Doge() {
     SDL_DestroyTexture(texture);
 }
 
- int Doge::getX(){
-    return x;
- }
+int Doge::getX() {
+    return dest.x;
+}
 
- int Doge::getY(){
-    return y;
- }
+int Doge::getY() {
+    return dest.y;
+}
 
 void Doge::jump() {
     velocity = jumpForce;
@@ -43,7 +43,7 @@ void Doge::update() {
     if (velocity > maxFallSpeed) velocity = maxFallSpeed; // giới hạn vận tốc
     dest.y += velocity;
 
-   //xoay khi rơi
+    //xoay khi rơi
     if (velocity > 0) {
         angle += 1.5; //
         if (angle > 90) angle = 90; // không xoay quá 90 độ

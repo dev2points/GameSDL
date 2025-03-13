@@ -13,20 +13,25 @@ public:
     ~Game();
 
     bool isRunning() const;
-    bool isPlay() ;
+    bool isPlay();
+    bool isLose();
     void handleEvents();
     void update();
     void render();
-    SDL_Renderer* getRenderer() { return renderer; }
+    void check();
+    void setGame();
 
 private:
 
     SDL_Window* window;
     SDL_Renderer* renderer;
-    bool running,play;
+    bool running, play, lose;
+    int screenwidth, screenheight;
 
     Background* background;
     Background* message;
+    Background* game_over;
+    Background* replay;
     Doge* doge;
     std::vector<Pipe*> pipes;
     Pipe* pipe;
