@@ -26,13 +26,13 @@ Game::Game(int screenWidth, int screenHeight) {
         running = false;
         return;
     }
-    play = false; // Kiểm tra trạng thái bắt đầu chơi
-    running = true; //  Trạng thái bắt đầu chạy
 
-    // Khởi tạo Background, Doge và Land
-    background = new Background(renderer, "assets/image/background_2.jpg", screenWidth, BACKGROUND_HEIGHT + 7, 1);
-    message = new Background(renderer, "assets/image/message.png", (screenWidth - MESSAGE_WIDTH) / 2, (screenHeight - MESSAGE_HEIGHT) / 2, 0);
-    doge = new Doge(renderer, "assets/image/shiba.png", 507, 285);
+    // Khởi tạo sound
+    sound = new Sound();
+    sound_end = false;
+    score = 0;
+        
+        
 
     play = false; // Kiểm tra trạng thái bắt đầu chơi
     running = true; //  Trạng thái bắt đầu chạy
@@ -60,7 +60,7 @@ void Game::setGame() {
         delete pipe;
     }
     pipes.clear();
-
+    score = 0;
     doge = new Doge(renderer, "assets/image/shiba.png", 507, 285);
     // Khởi tạo 4 ống với khoảng cách nhau
     for (int i = 0; i < 4; i++) {
@@ -95,21 +95,32 @@ bool Game::isLose() {
 void Game::check() {
     // Kiểm tra nếu Doge chạm vào đáy hoặc đỉnh background
     if (doge->getY() <= 0 || doge->getY() + DOGE_HEIGHT >= BACKGROUND_HEIGHT) {
-        lose = true;
-        return;
+        lose = true;  
     }
 
     // Kiểm tra va chạm với ống
-
     for (auto& pipe : pipes) {
         // Nếu Doge vượt qua vị trí ống theo trục X
         if (doge->getX() + DOGE_WIDTH > pipe->getX() && doge->getX() < pipe->getX() + PIPE_WIDTH) {
             // Nếu chạm vào ống trên hoặc dưới
             if (doge->getY() - 5 < pipe->getgapY() || doge->getY() + 5 + DOGE_HEIGHT > pipe->getgapY() + PIPE_GAP) {
-                lose = true;
-                return;
+                lose = true;                
             }
         }
+    }
+
+    for (auto& pipe : pipes) {
+        // Nếu doge vừa qua ống
+        if (doge->getX() == pipe->getX() + PIPE_WIDTH) {
+            score++;
+            Mix_PlayChannel(-1, sound->score, 0);
+        }
+    }
+
+    if (!lose) sound_end = false;
+    if (lose && !sound_end) {
+        Mix_PlayChannel(-1, sound->end, 0);
+        sound_end = true;
     }
 }
 
@@ -123,7 +134,10 @@ void Game::handleEvents() {
         if (event.type == SDL_MOUSEBUTTONDOWN ||
             (event.type == SDL_KEYDOWN && (event.key.keysym.sym == SDLK_SPACE || event.key.keysym.sym == SDLK_UP))) {
             play = true;
-            if(!lose) doge->jump();
+            if (!lose) {
+                doge->jump();
+                Mix_PlayChannel(-1, sound->jump, 0);
+            }
             else {
                 play = false;
                 setGame();
