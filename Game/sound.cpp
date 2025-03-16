@@ -1,4 +1,4 @@
-#include "sound.h"
+﻿#include "sound.h"
 
 Sound::Sound() {
     if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 128) < 0) {
@@ -7,19 +7,28 @@ Sound::Sound() {
     
     jump = Mix_LoadWAV("assets/sound/jump.wav");
     if (!jump) {
-        std::cout << "L?i t?i �m thanh: " << Mix_GetError() << std::endl;
+        std::cout << "Lỗi tải âm thanh: " << Mix_GetError() << std::endl;
     }
 
     score = Mix_LoadWAV("assets/sound/score.wav");
     if (!score) {
-        std::cerr << "L?i t?i �m thanh: " << Mix_GetError() << std::endl;
+        std::cerr << "Lỗi tải âm thanh: " << Mix_GetError() << std::endl;
     }
 
     end = Mix_LoadWAV("assets/sound/end.wav");
     if (!end) {
-        std::cerr << "L?i t?i �m thanh: " << Mix_GetError() << std::endl;
+        std::cerr << "Lỗi tải âm thanh: " << Mix_GetError() << std::endl;
     }
 
+    waiting = Mix_LoadMUS("assets/sound/waiting_music.mp3");
+    if (!waiting) {
+        std::cerr << "Lỗi tải âm thanh: " << Mix_GetError() << std::endl;
+    }
+
+    playing = Mix_LoadMUS("assets/sound/playing_music.mp3");
+    if (!playing) {
+        std::cerr << "Lỗi tải âm thanh: " << Mix_GetError() << std::endl;
+    }
 }
 
 

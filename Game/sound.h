@@ -9,6 +9,8 @@ public:
 	Mix_Chunk* jump;
 	Mix_Chunk* score;
 	Mix_Chunk* end;
+	Mix_Music* waiting;
+	Mix_Music* playing;
 	Sound();
 	~Sound();
 };

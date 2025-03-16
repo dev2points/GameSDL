@@ -42,3 +42,7 @@ void Land::render(SDL_Renderer* renderer) {
     SDL_RenderCopy(renderer, texture, &src1, &dest1);
     SDL_RenderCopy(renderer, texture, &src2, &dest2);
 }
+
+SDL_Texture* Land::getTexture() {
+    return texture;
+}

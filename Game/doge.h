@@ -3,6 +3,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <iostream>
+#include "background.h"
 
 const static int DOGE_HEIGHT = 35;
 const static int DOGE_WIDTH = 50;
@@ -12,11 +13,11 @@ const static int DOGE_WIDTH = 50;
 class Doge {
 private:
     SDL_Texture* texture;
-    SDL_Rect src, dest;
-    int x, y;
+    SDL_Rect dest;
+    int x, y, time;
     int jumpForce = -10;
-    double gravity = 1;
     double velocity = 0.0;
+    double gravity = 0.15;
     double maxFallSpeed = 8.0;
     double angle = 0.0;
 

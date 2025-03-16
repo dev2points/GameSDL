@@ -1,7 +1,7 @@
 #pragma once
 
 #include <SDL.h>
-#include <SDL_mixer.h>3
+#include <SDL_mixer.h>
 #include <vector>
 #include "background.h"
 #include "doge.h"
@@ -24,23 +24,50 @@ public:
     void check();
     void setGame();
 
+    void render_score();
+
 private:
 
     SDL_Window* window;
     SDL_Renderer* renderer;
     int screenwidth, screenheight;
+
     bool running, play, lose;
 
     bool sound_end;
+    bool sound_playing;
     int score;
 
-    Background* background;
+    Background* background_1;
+    Background* background_2;
+    Background* background_3;
+
     Background* message;
     Background* game_over;
     Background* replay;
+
     Doge* doge;
+
     std::vector<Pipe*> pipes;
-    Pipe* pipe;
-    Land* land;
+    std::vector<Doge*> units_large_one_digits;
+    std::vector<Doge*> units_large_two_digits;
+    std::vector<Doge*> tens_large_digits;
+
+    std::vector<Doge*> units_small_one_digits;
+    std::vector<Doge*> units_small_two_digits;
+    std::vector<Doge*> tens_small_digits;
+
+    Land* land_1;
+    Land* land_2;
+    Land* land_3;
+
     Sound* sound;
+
+    Background* currentBg; 
+    Background* nextBg;    
+
+    Land* currentLand;  
+    Land* nextLand;    
+
+    int alpha;          // ?? trong su?t cho crossfade
 };

@@ -51,3 +51,8 @@ void Background::render(SDL_Renderer* renderer) {
     }
 
 }
+
+SDL_Texture* Background::getTexture() {
+    return texture;
+}
+

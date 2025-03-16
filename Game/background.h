@@ -23,6 +23,8 @@ public:
 
     void update();
     void render(SDL_Renderer* renderer);
+
+    SDL_Texture* getTexture();
 };
 
 

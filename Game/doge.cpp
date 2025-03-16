@@ -14,10 +14,9 @@ Doge::Doge(SDL_Renderer* renderer, const char* filePath, int startX, int startY)
 
     x = startX;
     y = startY;
-   
-    src = { 0, 0, DOGE_WIDTH, DOGE_HEIGHT };
 
     dest = { startX, startY, DOGE_WIDTH, DOGE_HEIGHT };
+    SDL_QueryTexture(texture, NULL, NULL, &dest.w, &dest.h);    
 }
 
 Doge::~Doge() {
@@ -33,25 +32,39 @@ int Doge::getY() {
 }
 
 void Doge::jump() {
-    velocity = jumpForce;
-    angle = -20.0;
+    velocity = -7.3; // Nhảy lên với lực ban đầu 
+    time = 0;        // Reset thời gian rơi
+    y = dest.y;     // Lưu vị trí bắt đầu nhảy
+    angle = -25;     // Nghiêng Doge lên khi nhảy
 }
 
-void Doge::update() {
-    //trọng lực rơi
-    velocity += gravity;
-    if (velocity > maxFallSpeed) velocity = maxFallSpeed; // giới hạn vận tốc
-    dest.y += velocity;
 
-    //xoay khi rơi
-    if (velocity > 0) {
-        angle += 1.5; //
+void Doge::update() {
+    if (time == 0) {
+        y = dest.y;
+        angle = -25;
+    }
+
+    // Cập nhật vị trí theo công thức vật lý
+    dest.y = y + time * time * 0.18 + velocity * time;
+    time++;
+
+    // Giới hạn góc xoay khi rơi
+    if (time > 30) {
+        angle += 3;
         if (angle > 90) angle = 90; // không xoay quá 90 độ
+    }
+
+    // Kiểm tra nếu chạm đất
+    if (dest.y + DOGE_HEIGHT >= BACKGROUND_HEIGHT) {
+        dest.y = BACKGROUND_HEIGHT - DOGE_HEIGHT; // Đặt Doge đúng vị trí đất
+        time = 0; // Reset thời gian rơi
     }
 }
 
+
 void Doge::render(SDL_Renderer* renderer) {
-    SDL_RenderCopyEx(renderer, texture, &src, &dest, angle, nullptr, SDL_FLIP_NONE);
+    SDL_RenderCopyEx(renderer, texture, NULL, &dest, angle, nullptr, SDL_FLIP_NONE);
 }
 
 
