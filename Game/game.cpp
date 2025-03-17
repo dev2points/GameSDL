@@ -1,6 +1,7 @@
 ﻿#include "game.h"
 #include <iostream>
 #include <string>
+#include<fstream>
 
 
 Game::Game(int screenWidth, int screenHeight) {
@@ -33,7 +34,7 @@ Game::Game(int screenWidth, int screenHeight) {
     sound_end = false;
     sound_playing = false;
 
-    score = 0;     
+    score = 20;     
         
     play = false; // Kiểm tra trạng thái bắt đầu chơi
     running = true; //  Trạng thái bắt đầu chạy chương trình
@@ -63,8 +64,6 @@ Game::Game(int screenWidth, int screenHeight) {
     nextBg = nullptr;
     nextLand = nullptr;
 
-    alpha = 255;
-
     Mix_PlayMusic(sound->waiting, -1);
     Mix_VolumeMusic(20);
 
@@ -74,12 +73,6 @@ Game::Game(int screenWidth, int screenHeight) {
         units_large_one_digits.push_back(new Doge(renderer, filePath.c_str(), 525, 30)); 
         units_large_two_digits.push_back(new Doge(renderer, filePath.c_str(), 541, 30));
         tens_large_digits.push_back(new Doge(renderer, filePath.c_str(), 510, 30));
-    }
-    for (int i = 0; i < 10; i++) {
-        std::string filePath = "assets/image/small/" + std::to_string(i) + ".png";
-        units_small_one_digits.push_back(new Doge(renderer, filePath.c_str(), 610, 260));
-        units_small_two_digits.push_back(new Doge(renderer, filePath.c_str(), 620, 260));
-        tens_small_digits.push_back(new Doge(renderer, filePath.c_str(), 598, 260));
     }
 }
 
@@ -91,7 +84,7 @@ void Game::setGame() {
     sound_playing = false;
     pipes.clear();
     score = 0;
-    doge = new Doge(renderer, "assets/image/shiba.png", 430, 285);
+    doge = new Doge(renderer, "assets/image/shiba.png", 429, 285);
     currentBg = background_1;
     currentLand = land_1;
     // Khởi tạo 4 ống với khoảng cách nhau
@@ -188,21 +181,66 @@ void Game::handleEvents() {
 }
 
 void Game::render_score() {
-    int units = score % 10;
-    int tens = score / 10;
+    int units_score = score % 10;
+    int tens_score = score / 10;
     if (play) {
         if (!lose) {
-            if (tens == 0) units_large_one_digits[units]->render(renderer);
+            if (tens_score == 0) units_large_one_digits[units_score]->render(renderer);
             else {
-                units_large_two_digits[units]->render(renderer);
-                tens_large_digits[tens]->render(renderer);
+                units_large_two_digits[units_score]->render(renderer);
+                tens_large_digits[tens_score]->render(renderer);
             }
         }
         else {
-            if (tens == 0) units_small_one_digits[units]->render(renderer);
+            int tens_score = score / 10;
+            int units_score = score % 10;
+            if (tens_score == 0) {
+                std::string filePath = "assets/image/small/" + std::to_string(units_score) + ".png";
+                units_small_digits = new Doge(renderer, filePath.c_str(), 610, 260);
+                units_small_digits->render(renderer);
+            }
             else {
-                units_small_two_digits[units]->render(renderer);
-                tens_small_digits[tens]->render(renderer);
+                std::string filePath = "assets/image/small/" + std::to_string(units_score) + ".png";
+                units_small_digits = new Doge(renderer, filePath.c_str(), 620, 260);
+                units_small_digits->render(renderer);
+                filePath = "assets/image/small/" + std::to_string(tens_score) + ".png";
+                tens_small_digits = new Doge(renderer, filePath.c_str(), 600, 260);
+                tens_small_digits->render(renderer);
+            }
+            
+            // Đọc highscore
+            std::ifstream file("assets/high_score.txt");
+            if (file)  file >> highscore;             
+            int tens = highscore / 10;
+            int units = highscore % 10;
+            if (tens == 0) {
+                std::string filePath = "assets/image/small/" + std::to_string(units) + ".png";
+                units_high_score = new Doge(renderer, filePath.c_str(), 610, 306);
+            }
+            else {
+                std::string filePath = "assets/image/small/" + std::to_string(units) + ".png";
+                units_high_score = new Doge(renderer, filePath.c_str(), 620, 306);
+                filePath = "assets/image/small/" + std::to_string(tens) + ".png";
+                tens_high_score = new Doge(renderer, filePath.c_str(), 600, 306);
+            }
+            // In high score
+            if (tens_high_score == nullptr) units_high_score->render(renderer);
+            else {
+                units_high_score->render(renderer);
+                tens_high_score->render(renderer);
+            }
+            // Vẽ medal
+            if (score >= 80) medal = new Doge(renderer, "assets/image/gold.png", 440, 267);
+            else if(score >= 50) medal = new Doge(renderer, "assets/image/silver.png", 440, 267);
+            else if(score >= 20)medal = new Doge(renderer, "assets/image/honor.png", 440, 267);
+            medal->render(renderer);
+            //Ghi high score mới
+            if (score > highscore) {
+                std::ofstream outputFile("assets/high_score.txt");
+                if (outputFile.is_open()) {
+                    outputFile << score;
+                    outputFile.close();
+                }
             }
         }
     }

@@ -53,9 +53,11 @@ private:
     std::vector<Doge*> units_large_two_digits;
     std::vector<Doge*> tens_large_digits;
 
-    std::vector<Doge*> units_small_one_digits;
-    std::vector<Doge*> units_small_two_digits;
-    std::vector<Doge*> tens_small_digits;
+    Doge* units_small_digits;
+    Doge* tens_small_digits;
+    Doge* units_high_score;
+    Doge* tens_high_score;
+    Doge* medal;
 
     Land* land_1;
     Land* land_2;
@@ -69,5 +71,5 @@ private:
     Land* currentLand;  
     Land* nextLand;    
 
-    int alpha;          // ?? trong su?t cho crossfade
+    int highscore;
 };
