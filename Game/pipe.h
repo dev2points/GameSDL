@@ -19,12 +19,14 @@ public:
     void update();
     void render(SDL_Renderer* renderer);
     int getX() { return x; }  // Lấy vị trí X để kiểm tra va chạm 
+    void check_win();
 
 private:
     int x;  // Vị trí X của ống (di chuyển từ phải sang trái)
     int gapY;  // Vị trí khoảng trống giữa ống trên và dưới
     SDL_Texture* upPipeTexture;
     SDL_Texture* lowPipeTexture;
+    bool alpha;
 };
 
 

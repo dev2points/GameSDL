@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <SDL.h>
 #include <SDL_mixer.h>
@@ -25,6 +25,8 @@ public:
     void setGame();
 
     void render_score();
+    void render_fireworks();
+
 
 private:
 
@@ -32,7 +34,7 @@ private:
     SDL_Renderer* renderer;
     int screenwidth, screenheight;
 
-    bool running, play, lose;
+    bool running, play, lose, win;
 
     bool sound_end;
     bool sound_playing;
@@ -48,10 +50,10 @@ private:
 
     Doge* doge;
 
-    std::vector<Pipe*> pipes;
-    std::vector<Doge*> units_large_one_digits;
-    std::vector<Doge*> units_large_two_digits;
-    std::vector<Doge*> tens_large_digits;
+    std::vector <Pipe*> pipes;
+    std::vector <Doge*> units_large_one_digits;
+    std::vector <Doge*> units_large_two_digits;
+    std::vector <Doge*> tens_large_digits;
 
     Doge* units_small_digits;
     Doge* tens_small_digits;
@@ -65,11 +67,17 @@ private:
 
     Sound* sound;
 
-    Background* currentBg; 
-    Background* nextBg;    
+    Background* currentBg;
+    Background* nextBg;
 
-    Land* currentLand;  
-    Land* nextLand;    
+    Land* currentLand;
+    Land* nextLand;
 
     int highscore;
+
+    std::vector <Doge*> fire_work_1;
+    std::vector <Doge*> fire_work_2;
+    Doge* champion;
+    int currentFrame = 0;
+
 };

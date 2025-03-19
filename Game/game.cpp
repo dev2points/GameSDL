@@ -34,11 +34,12 @@ Game::Game(int screenWidth, int screenHeight) {
     sound_end = false;
     sound_playing = false;
 
-    score = 20;     
+    score = 95;     
         
     play = false; // Kiểm tra trạng thái bắt đầu chơi
     running = true; //  Trạng thái bắt đầu chạy chương trình
     lose = false; //    Thua game
+    win = false; // Thắng game
 
     // Khởi tạo Background, Doge và Land
     // Khởi tạo pointer để tồn tại xuyên suốt đến khi delete
@@ -47,6 +48,7 @@ Game::Game(int screenWidth, int screenHeight) {
     background_3 = new Background(renderer, "assets/image/background_3.jpg", screenWidth, BACKGROUND_HEIGHT + 7, 0);
     message = new Background(renderer, "assets/image/message.png", (screenWidth - MESSAGE_WIDTH) / 2, (screenHeight - MESSAGE_HEIGHT) / 2, 1);
     doge = new Doge(renderer, "assets/image/shiba.png", 429, 285); // Tọa độ X phải lẻ để hàm check hoạt động
+    
     game_over = new Background(renderer, "assets/image/gameOver.png", (screenWidth - 250) / 2, (screenHeight - 209) / 2 -50, 1);
     replay = new Background(renderer, "assets/image/replay.png", (screenWidth - 100) / 2, (screenHeight - 56) / 2 + 100 , 1);
 
@@ -73,6 +75,18 @@ Game::Game(int screenWidth, int screenHeight) {
         units_large_one_digits.push_back(new Doge(renderer, filePath.c_str(), 525, 30)); 
         units_large_two_digits.push_back(new Doge(renderer, filePath.c_str(), 541, 30));
         tens_large_digits.push_back(new Doge(renderer, filePath.c_str(), 510, 30));
+    }
+
+    // Khởi tạo champion
+    champion = new Doge(renderer, "assets/image/champion.png", 390, 150);
+    //Khởi tạo hiệu ứng pháo hoa
+    for (int i = 1; i <= 8; i++) {
+        std::string filePath = "assets/image/fire_works/" + std::to_string(i) + ".png";
+        fire_work_1.push_back(new Doge(renderer, filePath.c_str(), 190, 100));
+    }
+    for (int i = 1; i <= 8; i++) {
+        std::string filePath = "assets/image/fire_works/" + std::to_string(i) + ".png";
+        fire_work_2.push_back(new Doge(renderer, filePath.c_str(), 690, 100));
     }
 }
 
@@ -150,6 +164,10 @@ void Game::check() {
     if (lose && !sound_end) {
         Mix_PlayChannel(-1, sound->end, 0);
         sound_end = true;
+    }
+
+    if (score == 99) {
+        win = true;
     }
 }
 
@@ -246,16 +264,30 @@ void Game::render_score() {
     }
 }
 
+void Game::render_fireworks() {
+    // Vẽ frame hiện tại
+    if (currentFrame >= 8) currentFrame = 0;
+    fire_work_1[currentFrame]->render(renderer);
+    fire_work_2[currentFrame]->render(renderer);
+    currentFrame++;
+}
+
+
 void Game::update() {
     if (!lose) {
         for (auto& pipe : pipes) {
+            if (score >= 96) pipe->check_win();
             pipe->update();
         }
         currentBg->update();
         currentLand->update();
     }
 
-    doge->update();
+    if (!win) doge->update();
+    if (score == 99 && champion) {
+        champion->updateChampion();
+    }
+
 }
 
 void Game::render() {
@@ -290,7 +322,14 @@ void Game::render() {
     // Vẽ thông báo nếu chưa chơi
     if (!play) message->render(renderer);
 
-    render_score();     
+    render_score();   
+    
+    if (score == 99) {
+        champion->render(renderer);
+        render_fireworks();
+        Mix_PlayChannel(-1, sound->fire_work, -1);
+        Mix_VolumeChunk(sound->fire_work, 10);
+    }
 
     SDL_RenderPresent(renderer);
 

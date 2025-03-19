@@ -15,11 +15,13 @@ private:
     SDL_Texture* texture;
     SDL_Rect dest;
     int x, y, time;
-    int jumpForce = -10;
-    double velocity = 0.0;
-    double gravity = 0.15;
+    double velocity = 0.0;  // vận tốc
+    double gravity = 0.15; // trọng lực
     double maxFallSpeed = 8.0;
     double angle = 0.0;
+
+    double championScale = 0.1;  // Bắt đầu với kích thước nhỏ
+    bool growing = true;         // Kiểm soát trạng thái phóng to
 
 
 
@@ -36,6 +38,8 @@ public:
     void jump();
     void update();
     void render(SDL_Renderer* renderer);
+
+    void updateChampion();
 };
 
 

@@ -67,4 +67,22 @@ void Doge::render(SDL_Renderer* renderer) {
     SDL_RenderCopyEx(renderer, texture, NULL, &dest, angle, nullptr, SDL_FLIP_NONE);
 }
 
+void Doge::updateChampion() {
+    if (growing) {
+        championScale += 0.01; // Tăng kích thước mỗi frame
+        if (championScale >= 1) { // Giới hạn kích thước tối đa
+            championScale = 1;
+            growing = false;
+        }
+
+        // Áp dụng hiệu ứng phóng to
+        dest.w = static_cast<int>(300 * championScale);
+        dest.h = static_cast<int>(300 * championScale);
+        dest.x = x - (dest.w - 300) / 2; // Giữ vị trí trung tâm
+        dest.y = y + (dest.h - 300) / 2;
+    }
+}
+
+
+
 

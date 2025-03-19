@@ -20,6 +20,11 @@ Sound::Sound() {
         std::cerr << "Lỗi tải âm thanh: " << Mix_GetError() << std::endl;
     }
 
+    fire_work = Mix_LoadWAV("assets/sound/fire_work.wav");
+    if (!fire_work) {
+        std::cerr << "Lỗi tải âm thanh: " << Mix_GetError() << std::endl;
+    }
+
     waiting = Mix_LoadMUS("assets/sound/waiting_music.mp3");
     if (!waiting) {
         std::cerr << "Lỗi tải âm thanh: " << Mix_GetError() << std::endl;

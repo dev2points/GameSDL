@@ -11,9 +11,10 @@ int main(int argc, char* argv[]) {
     if (!game.isRunning()) return -1;
 
     int FPS = 60;
-    const int frameDelay = 1000 / FPS;
+    int frameDelay = 1000 / FPS;  
     Uint32 frameStart;
     int frameTime;
+
 
     while (game.isRunning()) {
         frameStart = SDL_GetTicks();

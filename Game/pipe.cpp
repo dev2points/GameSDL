@@ -13,6 +13,7 @@ Pipe::Pipe(SDL_Renderer* renderer, int startX) {
     if (!upPipeTexture || !lowPipeTexture) {
         std::cout << "Lỗi load pipe: " << IMG_GetError();
     }
+    alpha = 0;
 }
 
 Pipe::~Pipe() {
@@ -24,10 +25,9 @@ void Pipe::update() {
     x -= PIPE_SPEED;  // Ống di chuyển sang trái
 
     // Nếu ống ra khỏi màn hình, reset lại vị trí
-    if (x + PIPE_WIDTH < 0) {
+    if (x + PIPE_WIDTH < 0 && !alpha) {
         x = 1080;  // Đưa ống về lại bên phải màn hình
         gapY = rand() % 300 + 20;
-
     }
 }
 
@@ -44,4 +44,8 @@ void Pipe::render(SDL_Renderer* renderer) {
 
     SDL_RenderCopy(renderer, upPipeTexture, &upPipesrc, &upPipedest);
     SDL_RenderCopy(renderer, lowPipeTexture, &lowPipesrc, &lowPipedest);
+}
+
+void Pipe::check_win() {
+    alpha = 1;
 }
