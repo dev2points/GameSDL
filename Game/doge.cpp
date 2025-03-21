@@ -2,13 +2,16 @@
 #include "doge.h"
 
 
-Doge::Doge(SDL_Renderer* renderer, const char* filePath, int startX, int startY) {
+
+Doge::Doge(SDL_Renderer* renderer,const char* filePath, int startX, int startY) {
     SDL_Surface* tempSurface = IMG_Load(filePath);
     if (!tempSurface) {
         std::cout << "Lỗi tải ảnh Doge: " << IMG_GetError() << std::endl;
         texture = nullptr;
         return;
     }
+
+    filepath = filePath;
     texture = SDL_CreateTextureFromSurface(renderer, tempSurface);
     SDL_FreeSurface(tempSurface);
 
@@ -29,6 +32,13 @@ int Doge::getX() {
 
 int Doge::getY() {
     return dest.y;
+}
+SDL_Rect Doge::getRect() {
+    return dest;
+}
+
+std::string Doge::getFilePath() {
+    return filepath;
 }
 
 void Doge::jump() {
@@ -81,6 +91,11 @@ void Doge::updateChampion() {
         dest.x = x - (dest.w - 300) / 2; // Giữ vị trí trung tâm
         dest.y = y + (dest.h - 300) / 2;
     }
+}
+
+void Doge::update_powerup(){
+    dest.y += 1;
+    dest.x -= 2;
 }
 
 

@@ -88,6 +88,9 @@ Game::Game(int screenWidth, int screenHeight) {
         std::string filePath = "assets/image/fire_works/" + std::to_string(i) + ".png";
         fire_work_2.push_back(new Doge(renderer, filePath.c_str(), 690, 100));
     }
+
+    lastSpawnTime = SDL_GetTicks(); // Lấy thời gian khi game khởi động
+
 }
 
 void Game::setGame() {
@@ -141,22 +144,29 @@ void Game::check() {
         lose = true;  
     }
 
+    checkPowerUpCollision();
+
     // Kiểm tra va chạm với ống
-    for (auto& pipe : pipes) {
-        // Nếu Doge vượt qua vị trí ống theo trục X
-        if (doge->getX() + DOGE_WIDTH > pipe->getX() && doge->getX() < pipe->getX() + PIPE_WIDTH) {
-            // Nếu chạm vào ống trên hoặc dưới
-            if (doge->getY() - 5 < pipe->getgapY() || doge->getY() + 5 + DOGE_HEIGHT > pipe->getgapY() + PIPE_GAP) {
-                lose = true;                
+    if (!shield) {
+        for (auto& pipe : pipes) {
+            SDL_Rect dogeRect = doge->getRect(); // Lấy hitbox của Doge
+            SDL_Rect topPipeRect = { pipe->getX(), 0, PIPE_WIDTH, pipe->getgapY() }; // Ống trên
+            SDL_Rect bottomPipeRect = { pipe->getX(), pipe->getgapY() + PIPE_GAP, PIPE_WIDTH, screenheight - (pipe->getgapY() + PIPE_GAP) }; // Ống dưới
+
+            // Kiểm tra nếu Doge va chạm với ống trên hoặc ống dưới
+            if (SDL_HasIntersection(&dogeRect, &topPipeRect) || SDL_HasIntersection(&dogeRect, &bottomPipeRect)) {
+                lose = true;
             }
         }
     }
 
+
     for (auto& pipe : pipes) {
-        // Nếu doge vừa qua ống
-        if (doge->getX() == pipe->getX() + PIPE_WIDTH) {
+        // Kiểm tra nếu Doge vừa vượt qua cạnh phải của ống
+        if (doge->getX() >= pipe->getX() + PIPE_WIDTH && !pipe->isScored) {
             score++;
             Mix_PlayChannel(-1, sound->score, 0);
+            pipe->isScored = true; // Đánh dấu ống đã được tính điểm
         }
     }
 
@@ -287,7 +297,26 @@ void Game::update() {
     if (score == 99 && champion) {
         champion->updateChampion();
     }
-
+    // Tạo vật phẩm mỗi 5 giây
+    Uint32 currentTime = SDL_GetTicks();
+    if (currentTime - lastSpawnTime > 5000) { 
+        spawnPowerUp();
+        lastSpawnTime = currentTime; // Cập nhật thời điểm spawn gần nhất
+    }
+    for (Doge* powerup : powerUps) {
+        powerup->update_powerup();
+    }
+    if (is_increase_Speed && SDL_GetTicks() - increase_speed_Time > 2000) { // Sau 2 giây
+        Pipe::decrease_Speed(); // Reset về tốc độ mặc định 
+        is_increase_Speed = false; // Đánh dấu đã reset
+    }
+    if (is_decrease_Speed && SDL_GetTicks() - decrease_speed_Time > 3000) { // Sau 3 giây
+        Pipe::increase_Speed(); // Reset về tốc độ mặc định 
+        is_decrease_Speed = false; // Đánh dấu đã reset
+    }
+    if (shield && SDL_GetTicks() - shieldStartTime > 3000) { // 3 giây
+        shield = false;        
+    }
 }
 
 void Game::render() {
@@ -322,6 +351,12 @@ void Game::render() {
     // Vẽ thông báo nếu chưa chơi
     if (!play) message->render(renderer);
 
+    // Vẽ vật phẩm hỗ trợ
+    for (auto& powerUp : powerUps) {
+        powerUp->render(renderer);
+    }
+
+    // Vẽ điểm số
     render_score();   
     
     if (score == 99) {
@@ -333,5 +368,67 @@ void Game::render() {
 
     SDL_RenderPresent(renderer);
 
+}
+
+void Game::spawnPowerUp() {
+    int randX = rand() % (screenwidth - 429 - 50) + 429 + 50;// Xuất hiện vật phẩm cách vị trí doge 50 pixel
+    int randType = rand() % 3; // 0: Shield, 1: Speed Up, 2: Speed Down
+    std::string filePath;
+
+    switch (randType) {
+    case 0: filePath = "assets/image/power_up/shield.png"; break;
+    case 1: filePath = "assets/image/power_up/speed_up.png"; break;
+    case 2: filePath = "assets/image/power_up/speed_down.png"; break;
+    }
+
+    powerUps.push_back(new Doge(renderer, filePath.c_str(), randX, 0)); // Xuất hiện trên đỉnh màn hình
+}
+
+void Game::updatePowerUps() {
+    for (size_t i = 0; i < powerUps.size(); i++) {
+        powerUps[i]->update_powerup(); // Vật phẩm rơi xuống với tốc độ 1 pixel/frame
+
+        // Nếu vật phẩm rơi khỏi màn hình, xóa khỏi danh sách
+        if (powerUps[i]->getY() > BACKGROUND_HEIGHT) {
+            delete powerUps[i];
+            powerUps.erase(powerUps.begin() + i);
+            i--; // Điều chỉnh lại chỉ mục 
+        }
+    }
+}
+
+void Game::checkPowerUpCollision() {
+    SDL_Rect dogeRect = doge->getRect(); // Lấy hitbox của nhân vật chính
+
+    for (size_t i = 0; i < powerUps.size(); i++) {
+        SDL_Rect powerUpRect = powerUps[i]->getRect(); // Lấy hitbox của vật phẩm
+
+        // Kiểm tra va chạm
+        if (SDL_HasIntersection(&dogeRect, &powerUpRect)) {
+            // Xử lý hiệu ứng dựa trên loại vật phẩm
+            if (powerUps[i]->getFilePath() == "assets/image/power_up/shield.png") {
+                shield = true;
+                shieldStartTime = SDL_GetTicks(); // Lưu thời gian nhận shield
+                std::cout << "kích hoạt shield" << std::endl;
+            }
+            else if (powerUps[i]->getFilePath() == "assets/image/power_up/speed_up.png") {
+                Pipe::increase_Speed();
+                increase_speed_Time = SDL_GetTicks(); // Lưu thời điểm thay đổi tốc độ
+                is_increase_Speed = true;
+            }
+            else if (powerUps[i]->getFilePath() == "assets/image/power_up/speed_down.png") {
+                Pipe::decrease_Speed();
+                decrease_speed_Time = SDL_GetTicks();
+                is_decrease_Speed = true;
+            }
+            else std :: cout << powerUps[i]->getFilePath();
+
+
+            // Xóa vật phẩm sau khi ăn
+            delete powerUps[i];
+            powerUps.erase(powerUps.begin() + i);
+            i--; // Điều chỉnh lại chỉ mục sau khi xóa phần tử
+        }
+    }
 }
 

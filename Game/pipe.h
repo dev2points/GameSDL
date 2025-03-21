@@ -7,7 +7,7 @@
 
 static const int PIPE_WIDTH = 65;
 static const int PIPE_GAP = 200; // Khoảng cách giữa 2 ống
-static const int PIPE_SPEED = 2;
+
 static const int PIPE_HEIGHT = 373;
 static const int PIPE_SPACING = 286;
 
@@ -20,6 +20,10 @@ public:
     void render(SDL_Renderer* renderer);
     int getX() { return x; }  // Lấy vị trí X để kiểm tra va chạm 
     void check_win();
+    bool isScored;
+    static void increase_Speed();
+    static void decrease_Speed();
+    
 
 private:
     int x;  // Vị trí X của ống (di chuyển từ phải sang trái)
@@ -27,6 +31,7 @@ private:
     SDL_Texture* upPipeTexture;
     SDL_Texture* lowPipeTexture;
     bool alpha;
+    static int PIPE_SPEED;
 };
 
 

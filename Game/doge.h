@@ -15,6 +15,8 @@ private:
     SDL_Texture* texture;
     SDL_Rect dest;
     int x, y, time;
+    std::string filepath;
+
     double velocity = 0.0;  // vận tốc
     double gravity = 0.15; // trọng lực
     double maxFallSpeed = 8.0;
@@ -33,6 +35,8 @@ public:
 
     int getX();
     int getY();
+    SDL_Rect getRect();
+    std::string getFilePath();
     Doge(SDL_Renderer* renderer, const char* filePath, int startX, int startY);
     ~Doge();
     void jump();
@@ -40,6 +44,8 @@ public:
     void render(SDL_Renderer* renderer);
 
     void updateChampion();
+
+    void update_powerup();
 };
 
 

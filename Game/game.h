@@ -9,6 +9,8 @@
 #include "land.h"
 #include "sound.h"
 
+
+
 class Game {
 public:
     Game(int screenWidth, int screenHeight);
@@ -27,6 +29,11 @@ public:
     void render_score();
     void render_fireworks();
 
+    void spawnPowerUp();
+    void updatePowerUps();
+    void renderPowerUps();
+    void checkPowerUpCollision();
+
 
 private:
 
@@ -39,6 +46,16 @@ private:
     bool sound_end;
     bool sound_playing;
     int score;
+    bool shield;
+
+    Uint32 lastSpawnTime; // Lưu thời điểm spawn vật phẩm gần nhất
+    Uint32 increase_speed_Time = 0; // Thời điểm tăng tốc độ
+    Uint32 decrease_speed_Time = 0; // Thời điểm thay đổi tốc độ
+    bool is_increase_Speed = false; // Đánh dấu đã tăng tốc độ
+    bool is_decrease_Speed = false; // Đánh dấu đã giảm tốc độ
+    Uint32 shieldStartTime; // Thời điểm nhận shield
+
+
 
     Background* background_1;
     Background* background_2;
@@ -79,5 +96,8 @@ private:
     std::vector <Doge*> fire_work_2;
     Doge* champion;
     int currentFrame = 0;
+
+    std::vector<Doge*> powerUps; // Danh sách các vật phẩm hỗ trợ
+    int powerUpTimer; // Biến đếm thời gian xuất hiện vật phẩm
 
 };
