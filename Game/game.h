@@ -33,6 +33,7 @@ public:
     void updatePowerUps();
     void renderPowerUps();
     void checkPowerUpCollision();
+    void render_active();
 
 
 private:
@@ -46,14 +47,21 @@ private:
     bool sound_end;
     bool sound_playing;
     int score;
-    bool shield;
+   
 
     Uint32 lastSpawnTime; // Lưu thời điểm spawn vật phẩm gần nhất
     Uint32 increase_speed_Time = 0; // Thời điểm tăng tốc độ
     Uint32 decrease_speed_Time = 0; // Thời điểm thay đổi tốc độ
+    Uint32 shieldStartTime; // Thời điểm nhận shield
+    Uint32 speed_up_Time = 0; // Thời gian tăng tốc độ
+    Uint32 speed_down_Time = 0; // Thời gian giảm tốc độ
+    Uint32 shield_Time; // Thời gian hiệu lực shield
+
+    bool shield;
     bool is_increase_Speed = false; // Đánh dấu đã tăng tốc độ
     bool is_decrease_Speed = false; // Đánh dấu đã giảm tốc độ
-    Uint32 shieldStartTime; // Thời điểm nhận shield
+
+   
 
 
 
@@ -98,6 +106,7 @@ private:
     int currentFrame = 0;
 
     std::vector<Doge*> powerUps; // Danh sách các vật phẩm hỗ trợ
+    std::vector<Doge*> active;// danh sách vật phẩm có hiệu lực
     int powerUpTimer; // Biến đếm thời gian xuất hiện vật phẩm
 
 };

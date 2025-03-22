@@ -23,6 +23,7 @@ public:
     bool isScored;
     static void increase_Speed();
     static void decrease_Speed();
+    static void set_speed();
     
 
 private:

@@ -34,7 +34,7 @@ Game::Game(int screenWidth, int screenHeight) {
     sound_end = false;
     sound_playing = false;
 
-    score = 95;     
+    score = 33;     
         
     play = false; // Kiểm tra trạng thái bắt đầu chơi
     running = true; //  Trạng thái bắt đầu chạy chương trình
@@ -104,11 +104,17 @@ void Game::setGame() {
     doge = new Doge(renderer, "assets/image/shiba.png", 429, 285);
     currentBg = background_1;
     currentLand = land_1;
+    Pipe::set_speed();
     // Khởi tạo 4 ống với khoảng cách nhau
     for (int i = 0; i < 4; i++) {
         pipes.push_back(new Pipe(renderer, 1080 + i * PIPE_SPACING));
     }
     Mix_PlayMusic(sound->waiting, -1);
+
+    powerUps.clear();
+    shield = false;
+    is_increase_Speed = false; 
+    is_decrease_Speed = false;
 }
 
 Game::~Game() {
@@ -297,25 +303,29 @@ void Game::update() {
     if (score == 99 && champion) {
         champion->updateChampion();
     }
-    // Tạo vật phẩm mỗi 5 giây
-    Uint32 currentTime = SDL_GetTicks();
-    if (currentTime - lastSpawnTime > 5000) { 
-        spawnPowerUp();
-        lastSpawnTime = currentTime; // Cập nhật thời điểm spawn gần nhất
-    }
-    for (Doge* powerup : powerUps) {
-        powerup->update_powerup();
-    }
-    if (is_increase_Speed && SDL_GetTicks() - increase_speed_Time > 2000) { // Sau 2 giây
-        Pipe::decrease_Speed(); // Reset về tốc độ mặc định 
-        is_increase_Speed = false; // Đánh dấu đã reset
-    }
-    if (is_decrease_Speed && SDL_GetTicks() - decrease_speed_Time > 3000) { // Sau 3 giây
-        Pipe::increase_Speed(); // Reset về tốc độ mặc định 
-        is_decrease_Speed = false; // Đánh dấu đã reset
-    }
-    if (shield && SDL_GetTicks() - shieldStartTime > 3000) { // 3 giây
-        shield = false;        
+
+    if (play && !lose) {
+        // Tạo vật phẩm mỗi 5 giây
+        Uint32 currentTime = SDL_GetTicks();
+        if (currentTime - lastSpawnTime > 5000) {
+            spawnPowerUp();
+            lastSpawnTime = currentTime; // Cập nhật thời điểm spawn gần nhất
+        }
+        updatePowerUps();
+        for (Doge* powerup : powerUps) {
+            powerup->update_powerup();
+        }
+        if (is_increase_Speed && SDL_GetTicks() - increase_speed_Time > 2000) { // Sau 2 giây
+            Pipe::decrease_Speed(); // Reset về tốc độ mặc định 
+            is_increase_Speed = false; // Đánh dấu đã reset
+        }
+        if (is_decrease_Speed && SDL_GetTicks() - decrease_speed_Time > 2000) { // Sau 3 giây
+            Pipe::increase_Speed(); // Reset về tốc độ mặc định 
+            is_decrease_Speed = false; // Đánh dấu đã reset
+        }
+        if (shield && SDL_GetTicks() - shieldStartTime > 3000) { // 3 giây
+            shield = false;
+        }
     }
 }
 
@@ -355,6 +365,7 @@ void Game::render() {
     for (auto& powerUp : powerUps) {
         powerUp->render(renderer);
     }
+    if(play && !lose) render_active();
 
     // Vẽ điểm số
     render_score();   
@@ -371,6 +382,10 @@ void Game::render() {
 }
 
 void Game::spawnPowerUp() {
+    active.push_back( new Doge(renderer, "assets/image/power_up/shield.png", 10, 10));
+    active.push_back( new Doge(renderer, "assets/image/power_up/speed_up.png", 10, 63));
+    active.push_back( new Doge(renderer, "assets/image/power_up/speed_down.png", 10, 123));
+
     int randX = rand() % (screenwidth - 429 - 50) + 429 + 50;// Xuất hiện vật phẩm cách vị trí doge 50 pixel
     int randType = rand() % 3; // 0: Shield, 1: Speed Up, 2: Speed Down
     std::string filePath;
@@ -386,7 +401,7 @@ void Game::spawnPowerUp() {
 
 void Game::updatePowerUps() {
     for (size_t i = 0; i < powerUps.size(); i++) {
-        powerUps[i]->update_powerup(); // Vật phẩm rơi xuống với tốc độ 1 pixel/frame
+        powerUps[i]->update_powerup(); 
 
         // Nếu vật phẩm rơi khỏi màn hình, xóa khỏi danh sách
         if (powerUps[i]->getY() > BACKGROUND_HEIGHT) {
@@ -429,6 +444,28 @@ void Game::checkPowerUpCollision() {
             powerUps.erase(powerUps.begin() + i);
             i--; // Điều chỉnh lại chỉ mục sau khi xóa phần tử
         }
+    }
+}
+
+void Game::render_active() {
+    Uint32 current = SDL_GetTicks();
+    if (shield) {
+        active[0]->render(renderer);
+        SDL_Rect timeBar0 = { 60, 30, (float)(3000 - (current - shieldStartTime)) / 3000 * 180, 10};
+        SDL_SetRenderDrawColor(renderer, 200, 10, 10, 255);
+        SDL_RenderFillRect(renderer, &timeBar0);
+    }
+    if (is_increase_Speed) {
+        active[1]->render(renderer);
+        SDL_Rect timeBar1 = { 60, 90, (float)(2000 - (current - increase_speed_Time)) / 3000 * 120, 10 };
+        SDL_SetRenderDrawColor(renderer, 200, 10, 10, 255);
+        SDL_RenderFillRect(renderer, &timeBar1);
+    }
+    if (is_decrease_Speed) {
+        active[2]->render(renderer);
+        SDL_Rect timeBar2 = { 60, 150, (float)(2000 - (current - decrease_speed_Time)) / 3000 * 120, 10 };
+        SDL_SetRenderDrawColor(renderer, 200, 10, 10, 255);
+        SDL_RenderFillRect(renderer, &timeBar2);
     }
 }
 

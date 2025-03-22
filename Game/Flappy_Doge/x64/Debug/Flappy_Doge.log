@@ -1,3 +1,9 @@
 ﻿  game.cpp
-C:\Users\DELL\Desktop\Game\game.cpp(415,30): warning C4566: character represented by universal-character-name '\u1EA1' cannot be represented in the current code page (1252)
+C:\Users\DELL\Desktop\Game\game.cpp(427,30): warning C4566: character represented by universal-character-name '\u1EA1' cannot be represented in the current code page (1252)
+C:\Users\DELL\Desktop\Game\game.cpp(454,90): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
+C:\Users\DELL\Desktop\Game\game.cpp(454,90): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\DELL\Desktop\Game\game.cpp(460,94): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
+C:\Users\DELL\Desktop\Game\game.cpp(460,94): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\DELL\Desktop\Game\game.cpp(466,95): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
+C:\Users\DELL\Desktop\Game\game.cpp(466,95): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
   Flappy_Doge.vcxproj -> C:\Users\DELL\Desktop\Game\x64\Debug\Flappy_Doge.exe

@@ -3,7 +3,7 @@
 #include <ctime>
 #include <iostream>
 
-int Pipe::PIPE_SPEED = 3;
+int Pipe::PIPE_SPEED = 4;
 
 Pipe::Pipe(SDL_Renderer* renderer, int startX) {
     x = startX;
@@ -60,6 +60,9 @@ void Pipe::increase_Speed() {
     PIPE_SPEED += 2;
 }
 void Pipe::decrease_Speed() {
-    PIPE_SPEED -= 1;
+    PIPE_SPEED -= 2;
+}
+void Pipe::set_speed() {
+    PIPE_SPEED = 3;
 }
 
