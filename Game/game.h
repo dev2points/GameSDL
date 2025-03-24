@@ -42,32 +42,40 @@ private:
     SDL_Renderer* renderer;
     int screenwidth, screenheight;
 
-    bool running, play, lose, win;
+    bool running, play, lose;
 
     bool sound_end;
     bool sound_playing;
-    int score;
-   
+    bool Fire_work;
+
+    int score  ;   
 
     Uint32 lastSpawnTime; // Lưu thời điểm spawn vật phẩm gần nhất
     Uint32 increase_speed_Time = 0; // Thời điểm tăng tốc độ
     Uint32 decrease_speed_Time = 0; // Thời điểm thay đổi tốc độ
     Uint32 shieldStartTime; // Thời điểm nhận shield
+    Uint32 start_jump_high; // Thời điểm bắt đầu nhảy cao
+    Uint32 start_jump_low; // Thời điểm bắt đầu nhảy thấp
     Uint32 speed_up_Time = 0; // Thời gian tăng tốc độ
     Uint32 speed_down_Time = 0; // Thời gian giảm tốc độ
     Uint32 shield_Time; // Thời gian hiệu lực shield
+    Uint32 jump_high_Time; // Thời gian có thể nhảy cao
+    Uint32 jump_low_Time; // Thời gian có thể nhảy thấp 
+
 
     bool shield;
-    bool is_increase_Speed = false; // Đánh dấu đã tăng tốc độ
-    bool is_decrease_Speed = false; // Đánh dấu đã giảm tốc độ
+    bool is_increase_Speed = false; 
+    bool is_decrease_Speed = false; 
+    bool jump_high = false;
+    bool jump_low = false;
 
-   
-
+    bool increase_pipe_speed = false;
 
 
     Background* background_1;
     Background* background_2;
     Background* background_3;
+    Background* background_4;
 
     Background* message;
     Background* game_over;
@@ -80,15 +88,14 @@ private:
     std::vector <Doge*> units_large_two_digits;
     std::vector <Doge*> tens_large_digits;
 
-    Doge* units_small_digits;
-    Doge* tens_small_digits;
-    Doge* units_high_score;
-    Doge* tens_high_score;
+    std::vector<SDL_Texture*> large_digits; // Vector lưu texture số lớn
+    std::vector<SDL_Texture*> small_digits; // Vector lưu texture số lớn
     Doge* medal;
 
     Land* land_1;
     Land* land_2;
     Land* land_3;
+    Land* land_4;
 
     Sound* sound;
 

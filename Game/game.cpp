@@ -34,32 +34,33 @@ Game::Game(int screenWidth, int screenHeight) {
     sound_end = false;
     sound_playing = false;
 
-    score = 33;     
+    score = 0;     
         
     play = false; // Kiểm tra trạng thái bắt đầu chơi
     running = true; //  Trạng thái bắt đầu chạy chương trình
     lose = false; //    Thua game
-    win = false; // Thắng game
 
     // Khởi tạo Background, Doge và Land
     // Khởi tạo pointer để tồn tại xuyên suốt đến khi delete
-    background_1 = new Background(renderer, "assets/image/background_1.jpg", screenWidth, BACKGROUND_HEIGHT + 7, 0);
-    background_2 = new Background(renderer, "assets/image/background_2.jpg", screenWidth, BACKGROUND_HEIGHT + 7, 0);
-    background_3 = new Background(renderer, "assets/image/background_3.jpg", screenWidth, BACKGROUND_HEIGHT + 7, 0);
-    message = new Background(renderer, "assets/image/message.png", (screenWidth - MESSAGE_WIDTH) / 2, (screenHeight - MESSAGE_HEIGHT) / 2, 1);
-    doge = new Doge(renderer, "assets/image/shiba.png", 429, 285); // Tọa độ X phải lẻ để hàm check hoạt động
+    background_1 = new Background(renderer, "assets/image/background_1.jpg", screenWidth, BACKGROUND_HEIGHT , 0);
+    background_2 = new Background(renderer, "assets/image/background_2.jpg", screenWidth, BACKGROUND_HEIGHT , 0);
+    background_3 = new Background(renderer, "assets/image/background_3.jpg", screenWidth, BACKGROUND_HEIGHT , 0);
+    background_4 = new Background(renderer, "assets/image/background_4.png", screenWidth, BACKGROUND_HEIGHT , 0);
+    message = new Background(renderer, "assets/image/message.png", (screenWidth - MESSAGE_WIDTH) / 2, (screenHeight - MESSAGE_HEIGHT) / 2 - 50, 1);
+    doge = new Doge(renderer, "assets/image/shiba.png", 429, 285); 
     
     game_over = new Background(renderer, "assets/image/gameOver.png", (screenWidth - 250) / 2, (screenHeight - 209) / 2 -50, 1);
     replay = new Background(renderer, "assets/image/replay.png", (screenWidth - 100) / 2, (screenHeight - 56) / 2 + 100 , 1);
 
     // Khởi tạo 4 ống với khoảng cách nhau
     for (int i = 0; i < 4; i++) {
-        pipes.push_back(new Pipe(renderer, 1080 + i * PIPE_SPACING));
+        pipes.push_back(new Pipe(renderer, 1000 + i * PIPE_SPACING));
     }
 
     land_1 = new Land(renderer, "assets/image/land_1.jpg", screenWidth, BACKGROUND_HEIGHT);
-    land_2 = new Land(renderer, "assets/image/land_2.jpg", screenWidth, BACKGROUND_HEIGHT);
+    land_2 = new Land(renderer, "assets/image/land_2.jpg", screenWidth, BACKGROUND_HEIGHT - 7);
     land_3 = new Land(renderer, "assets/image/land_3.jpg", screenWidth, BACKGROUND_HEIGHT);
+    land_4 = new Land(renderer, "assets/image/land_4.png", screenWidth, BACKGROUND_HEIGHT);
 
     currentBg = background_1;
     currentLand = land_1;
@@ -71,26 +72,44 @@ Game::Game(int screenWidth, int screenHeight) {
 
     // Khởi tạo chữ số lớn hiển thị score
     for (int i = 0; i < 10; i++) {
-        std::string filePath = "assets/image/large/" + std::to_string(i) + ".png"; 
-        units_large_one_digits.push_back(new Doge(renderer, filePath.c_str(), 525, 30)); 
-        units_large_two_digits.push_back(new Doge(renderer, filePath.c_str(), 541, 30));
-        tens_large_digits.push_back(new Doge(renderer, filePath.c_str(), 510, 30));
+        std::string filePath = "assets/image/large/" + std::to_string(i) + ".png";
+        SDL_Surface* surface = IMG_Load(filePath.c_str());
+        if (surface) {
+            large_digits.push_back(SDL_CreateTextureFromSurface(renderer, surface));
+            SDL_FreeSurface(surface);
+        }
+        else {
+            large_digits.push_back(nullptr); // Tránh lỗi nếu ảnh không load được
+        }
     }
 
-    // Khởi tạo champion
-    champion = new Doge(renderer, "assets/image/champion.png", 390, 150);
+    // Khởi tạo chữ số bé 
+    for (int i = 0; i < 10; i++) {
+        std::string filePath = "assets/image/small/" + std::to_string(i) + ".png";
+        SDL_Surface* surface = IMG_Load(filePath.c_str());
+        if (surface) {
+            small_digits.push_back(SDL_CreateTextureFromSurface(renderer, surface));
+            SDL_FreeSurface(surface);
+        }
+        else {
+            small_digits.push_back(nullptr); // Tránh lỗi nếu ảnh không load được
+        }
+    }
+    // Đọc high score từ file
+    std::ifstream file("assets/high_score.txt");
+    if (file) file >> highscore;
+
     //Khởi tạo hiệu ứng pháo hoa
     for (int i = 1; i <= 8; i++) {
         std::string filePath = "assets/image/fire_works/" + std::to_string(i) + ".png";
-        fire_work_1.push_back(new Doge(renderer, filePath.c_str(), 190, 100));
+        fire_work_1.push_back(new Doge(renderer, filePath.c_str(), 150, 100));
     }
     for (int i = 1; i <= 8; i++) {
         std::string filePath = "assets/image/fire_works/" + std::to_string(i) + ".png";
-        fire_work_2.push_back(new Doge(renderer, filePath.c_str(), 690, 100));
+        fire_work_2.push_back(new Doge(renderer, filePath.c_str(), 650, 100));
     }
 
-    lastSpawnTime = SDL_GetTicks(); // Lấy thời gian khi game khởi động
-
+    lastSpawnTime = SDL_GetTicks(); // Lấy thời gian khi game khởi động để tạo powerup
 }
 
 void Game::setGame() {
@@ -100,21 +119,28 @@ void Game::setGame() {
     }
     sound_playing = false;
     pipes.clear();
+    // Đọc high score từ file
+    std::ifstream file("assets/high_score.txt");
+    if (file) file >> highscore;
     score = 0;
     doge = new Doge(renderer, "assets/image/shiba.png", 429, 285);
     currentBg = background_1;
     currentLand = land_1;
+    Fire_work=false;
     Pipe::set_speed();
     // Khởi tạo 4 ống với khoảng cách nhau
     for (int i = 0; i < 4; i++) {
         pipes.push_back(new Pipe(renderer, 1080 + i * PIPE_SPACING));
     }
+    Mix_HaltChannel(-1);
     Mix_PlayMusic(sound->waiting, -1);
 
     powerUps.clear();
     shield = false;
     is_increase_Speed = false; 
     is_decrease_Speed = false;
+    jump_high = false;
+    jump_low = false;
 }
 
 Game::~Game() {
@@ -181,10 +207,15 @@ void Game::check() {
         Mix_PlayChannel(-1, sound->end, 0);
         sound_end = true;
     }
-
-    if (score == 99) {
-        win = true;
+    if (score > 0 && score % 10 == 0) {
+        if (!increase_pipe_speed) {
+            if(PIPE_SPEED < 11)   PIPE_SPEED += 0.2;
+            if(PIPE_SPACING < 500)    PIPE_SPACING += 5;
+            increase_pipe_speed = true;
+        }
     }
+    else increase_pipe_speed = false;
+//std::cout << PIPE_SPEED<<" "<<pipe << std::endl;
 }
 
 
@@ -215,68 +246,60 @@ void Game::handleEvents() {
 }
 
 void Game::render_score() {
-    int units_score = score % 10;
-    int tens_score = score / 10;
-    if (play) {
-        if (!lose) {
-            if (tens_score == 0) units_large_one_digits[units_score]->render(renderer);
-            else {
-                units_large_two_digits[units_score]->render(renderer);
-                tens_large_digits[tens_score]->render(renderer);
-            }
+    if (!play) return; // Không hiển thị nếu game chưa bắt đầu
+
+    std::string scoreStr = std::to_string(score);  // Chuyển điểm thành chuỗi
+    int numDigits = scoreStr.length();
+
+    int digitWidth = 30;   // Kích thước chữ số (điều chỉnh theo ảnh)
+    int digitHeight = 50;
+    int totalWidth = numDigits * digitWidth;
+    int startX = (1000 - totalWidth) / 2; // Căn giữa màn hình
+
+    if (!lose) { // Khi chưa thua, hiển thị điểm lớn
+        for (char c : scoreStr) {
+            int digit = c - '0';
+            SDL_Rect destRect = { startX, 50, digitWidth, digitHeight }; // Vị trí trên màn hình
+            SDL_RenderCopy(renderer, large_digits[digit], nullptr, &destRect);
+            startX += digitWidth;
         }
-        else {
-            int tens_score = score / 10;
-            int units_score = score % 10;
-            if (tens_score == 0) {
-                std::string filePath = "assets/image/small/" + std::to_string(units_score) + ".png";
-                units_small_digits = new Doge(renderer, filePath.c_str(), 610, 260);
-                units_small_digits->render(renderer);
-            }
-            else {
-                std::string filePath = "assets/image/small/" + std::to_string(units_score) + ".png";
-                units_small_digits = new Doge(renderer, filePath.c_str(), 620, 260);
-                units_small_digits->render(renderer);
-                filePath = "assets/image/small/" + std::to_string(tens_score) + ".png";
-                tens_small_digits = new Doge(renderer, filePath.c_str(), 600, 260);
-                tens_small_digits->render(renderer);
-            }
-            
-            // Đọc highscore
-            std::ifstream file("assets/high_score.txt");
-            if (file)  file >> highscore;             
-            int tens = highscore / 10;
-            int units = highscore % 10;
-            if (tens == 0) {
-                std::string filePath = "assets/image/small/" + std::to_string(units) + ".png";
-                units_high_score = new Doge(renderer, filePath.c_str(), 610, 306);
-            }
-            else {
-                std::string filePath = "assets/image/small/" + std::to_string(units) + ".png";
-                units_high_score = new Doge(renderer, filePath.c_str(), 620, 306);
-                filePath = "assets/image/small/" + std::to_string(tens) + ".png";
-                tens_high_score = new Doge(renderer, filePath.c_str(), 600, 306);
-            }
-            // In high score
-            if (tens_high_score == nullptr) units_high_score->render(renderer);
-            else {
-                units_high_score->render(renderer);
-                tens_high_score->render(renderer);
-            }
-            // Vẽ medal
-            if (score >= 80) medal = new Doge(renderer, "assets/image/gold.png", 440, 267);
-            else if(score >= 50) medal = new Doge(renderer, "assets/image/silver.png", 440, 267);
-            else if(score >= 20)medal = new Doge(renderer, "assets/image/honor.png", 440, 267);
-            medal->render(renderer);
-            //Ghi high score mới
-            if (score > highscore) {
-                std::ofstream outputFile("assets/high_score.txt");
-                if (outputFile.is_open()) {
-                    outputFile << score;
-                    outputFile.close();
-                }
-            }
+    }
+    else { // Khi thua, hiển thị điểm nhỏ + high score
+        int smallY = 260, highY = 306;
+        startX = 585 - (numDigits * 10); // Dịch vị trí để căn chỉnh
+        for (char c : scoreStr) {
+            int digit = c - '0';
+            SDL_Rect destRect = { startX, smallY, 20, 30 };
+            SDL_RenderCopy(renderer, small_digits[digit], nullptr, &destRect);
+           // SDL_RenderCopy()
+            startX += 20;
         }
+
+        std::string highScoreStr = std::to_string(highscore);
+
+        startX = 585 - (highScoreStr.length() * 10);
+        for (char c : highScoreStr) {
+            int digit = c - '0';
+            SDL_Rect destRect = { startX, highY, 20, 30 };
+            SDL_RenderCopy(renderer, small_digits[digit], nullptr, &destRect);
+            startX += 20;
+        }
+
+        // Hiển thị huy chương
+        // Ghi high score mới
+        if (score > highscore) {
+            medal = new Doge(renderer, "assets/image/champion.png", 400, 267);
+            std::ofstream outputFile("assets/high_score.txt");
+            if (outputFile.is_open()) {
+                outputFile << score;
+                outputFile.close();
+            }           
+            Fire_work = true;
+        }
+        else if (score >= highscore * 3 / 4) medal = new Doge(renderer, "assets/image/gold.png", 440, 267);
+        else if (score >= highscore / 2) medal = new Doge(renderer, "assets/image/silver.png", 440, 267);
+        else if (score >= highscore / 4) medal = new Doge(renderer, "assets/image/honor.png", 440, 267);
+        if (medal) medal->render(renderer);    
     }
 }
 
@@ -291,18 +314,14 @@ void Game::render_fireworks() {
 
 void Game::update() {
     if (!lose) {
-        for (auto& pipe : pipes) {
-            if (score >= 96) pipe->check_win();
-            pipe->update();
+        for (int i = 0; i < 4; i++) {
+            pipes[i]->update(pipes[(i + 3) % 4]->getX());
         }
         currentBg->update();
         currentLand->update();
     }
 
-    if (!win) doge->update();
-    if (score == 99 && champion) {
-        champion->updateChampion();
-    }
+    doge->update();
 
     if (play && !lose) {
         // Tạo vật phẩm mỗi 5 giây
@@ -315,16 +334,24 @@ void Game::update() {
         for (Doge* powerup : powerUps) {
             powerup->update_powerup();
         }
-        if (is_increase_Speed && SDL_GetTicks() - increase_speed_Time > 2000) { // Sau 2 giây
+        if (is_increase_Speed && SDL_GetTicks() - increase_speed_Time > 3000) { // Sau 2 giây
             Pipe::decrease_Speed(); // Reset về tốc độ mặc định 
             is_increase_Speed = false; // Đánh dấu đã reset
         }
-        if (is_decrease_Speed && SDL_GetTicks() - decrease_speed_Time > 2000) { // Sau 3 giây
+        if (is_decrease_Speed && SDL_GetTicks() - decrease_speed_Time > 3000) { // Sau 3 giây
             Pipe::increase_Speed(); // Reset về tốc độ mặc định 
             is_decrease_Speed = false; // Đánh dấu đã reset
         }
         if (shield && SDL_GetTicks() - shieldStartTime > 3000) { // 3 giây
             shield = false;
+        }
+        if (jump_high && SDL_GetTicks() - start_jump_high > 5000) { // Sau 5 giây
+            doge->decrease_velocity();
+            jump_high = false;
+        }
+        if (jump_low && SDL_GetTicks() - start_jump_low > 5000) { // Sau 5 giây
+            doge->increase_velocity();
+            jump_low = false;
         }
     }
 }
@@ -332,31 +359,37 @@ void Game::update() {
 void Game::render() {
     SDL_RenderClear(renderer);
 
-    if (score == 33) {
-        currentBg = background_2;
-        currentLand = land_2;
-    }
-    else if (score == 66) {
-        currentBg = background_3;
-        currentLand = land_3;
-    }
-    currentBg->render(renderer);
+    if (score % 30 == 0) {  // Mỗi khi score chia hết cho 30
+        int bgIndex = (score / 30) % 4; // Lấy chỉ số background (0, 1, 2 lặp lại)
 
-    // Vẽ Doge
-    doge->render(renderer);
+        if (bgIndex == 0) {
+            currentBg = background_1;
+            currentLand = land_1;
+        }
+        else if (bgIndex == 1) {
+            currentBg = background_2;
+            currentLand = land_2;
+        }
+        else if (bgIndex == 2) {
+            currentBg = background_3;
+            currentLand = land_3;
+        }
+        else if (bgIndex == 3) {
+            currentBg = background_4;
+            currentLand = land_4;
+        }
+    }
+    currentBg->render(renderer);    
 
     // Vẽ pipes
     for (auto& pipe : pipes) {
         pipe->render(renderer);
     }
 
-    currentLand->render(renderer);
+    // Vẽ Doge
+    doge->render(renderer);
 
-    // Nếu thua game, vẽ Game Over
-    if (lose) {
-        game_over->render(renderer);
-        replay->render(renderer);
-    }
+    currentLand->render(renderer);    
 
     // Vẽ thông báo nếu chưa chơi
     if (!play) message->render(renderer);
@@ -367,11 +400,16 @@ void Game::render() {
     }
     if(play && !lose) render_active();
 
+    // Nếu thua game, vẽ Game Over
+    if (lose) {
+        game_over->render(renderer);
+        replay->render(renderer);
+    }
+
     // Vẽ điểm số
     render_score();   
     
-    if (score == 99) {
-        champion->render(renderer);
+    if (Fire_work) {
         render_fireworks();
         Mix_PlayChannel(-1, sound->fire_work, -1);
         Mix_VolumeChunk(sound->fire_work, 10);
@@ -385,15 +423,20 @@ void Game::spawnPowerUp() {
     active.push_back( new Doge(renderer, "assets/image/power_up/shield.png", 10, 10));
     active.push_back( new Doge(renderer, "assets/image/power_up/speed_up.png", 10, 63));
     active.push_back( new Doge(renderer, "assets/image/power_up/speed_down.png", 10, 123));
+    active.push_back( new Doge(renderer, "assets/image/power_up/jump_high.png", 10, 173));
+    active.push_back(new Doge(renderer, "assets/image/power_up/jump_low.png", 10, 223));
+
 
     int randX = rand() % (screenwidth - 429 - 50) + 429 + 50;// Xuất hiện vật phẩm cách vị trí doge 50 pixel
-    int randType = rand() % 3; // 0: Shield, 1: Speed Up, 2: Speed Down
+    int randType = rand() % 5; // 0: Shield, 1: Speed Up, 2: Speed Down
     std::string filePath;
 
     switch (randType) {
     case 0: filePath = "assets/image/power_up/shield.png"; break;
     case 1: filePath = "assets/image/power_up/speed_up.png"; break;
     case 2: filePath = "assets/image/power_up/speed_down.png"; break;
+    case 3: filePath = "assets/image/power_up/jump_high.png"; break;
+    case 4: filePath = "assets/image/power_up/jump_low.png"; break;
     }
 
     powerUps.push_back(new Doge(renderer, filePath.c_str(), randX, 0)); // Xuất hiện trên đỉnh màn hình
@@ -424,21 +467,35 @@ void Game::checkPowerUpCollision() {
             if (powerUps[i]->getFilePath() == "assets/image/power_up/shield.png") {
                 shield = true;
                 shieldStartTime = SDL_GetTicks(); // Lưu thời gian nhận shield
-                std::cout << "kích hoạt shield" << std::endl;
             }
             else if (powerUps[i]->getFilePath() == "assets/image/power_up/speed_up.png") {
-                Pipe::increase_Speed();
                 increase_speed_Time = SDL_GetTicks(); // Lưu thời điểm thay đổi tốc độ
-                is_increase_Speed = true;
+                if (!is_increase_Speed) {
+                    Pipe::increase_Speed();
+                    is_increase_Speed = true;
+                }
             }
-            else if (powerUps[i]->getFilePath() == "assets/image/power_up/speed_down.png") {
-                Pipe::decrease_Speed();
+            else if (powerUps[i]->getFilePath() == "assets/image/power_up/speed_down.png") {                
                 decrease_speed_Time = SDL_GetTicks();
-                is_decrease_Speed = true;
+                if (!is_decrease_Speed) {
+                    is_decrease_Speed = true;
+                    Pipe::decrease_Speed();
+                }
             }
-            else std :: cout << powerUps[i]->getFilePath();
-
-
+            else if (powerUps[i]->getFilePath() == "assets/image/power_up/jump_high.png") {                
+                start_jump_high = SDL_GetTicks();
+                if (!jump_high) {
+                    doge->increase_velocity();
+                    jump_high = true;
+                }
+            }
+            else if (powerUps[i]->getFilePath() == "assets/image/power_up/jump_low.png") {
+                start_jump_low = SDL_GetTicks();
+                if (!jump_low) {
+                    doge->decrease_velocity();
+                    jump_low = true;
+                }
+            }     
             // Xóa vật phẩm sau khi ăn
             delete powerUps[i];
             powerUps.erase(powerUps.begin() + i);
@@ -451,21 +508,33 @@ void Game::render_active() {
     Uint32 current = SDL_GetTicks();
     if (shield) {
         active[0]->render(renderer);
-        SDL_Rect timeBar0 = { 60, 30, (float)(3000 - (current - shieldStartTime)) / 3000 * 180, 10};
+        SDL_Rect timeBar0 = { 60, 30, (float)(3000 - (current - shieldStartTime)) / 3000 * 180, 10 };
         SDL_SetRenderDrawColor(renderer, 200, 10, 10, 255);
         SDL_RenderFillRect(renderer, &timeBar0);
     }
     if (is_increase_Speed) {
         active[1]->render(renderer);
-        SDL_Rect timeBar1 = { 60, 90, (float)(2000 - (current - increase_speed_Time)) / 3000 * 120, 10 };
+        SDL_Rect timeBar1 = { 60, 90, (float)(3000 - (current - increase_speed_Time)) / 3000 * 180, 10 };
         SDL_SetRenderDrawColor(renderer, 200, 10, 10, 255);
         SDL_RenderFillRect(renderer, &timeBar1);
     }
     if (is_decrease_Speed) {
         active[2]->render(renderer);
-        SDL_Rect timeBar2 = { 60, 150, (float)(2000 - (current - decrease_speed_Time)) / 3000 * 120, 10 };
+        SDL_Rect timeBar2 = { 60, 142, (float)(3000 - (current - decrease_speed_Time)) / 3000 * 180, 10 };
         SDL_SetRenderDrawColor(renderer, 200, 10, 10, 255);
         SDL_RenderFillRect(renderer, &timeBar2);
+    }
+    if (jump_high) {
+        active[3]->render(renderer);
+        SDL_Rect timeBar3 = { 60, 200, (float)(5000 - (current - start_jump_high)) / 5000 * 180, 10 };
+        SDL_SetRenderDrawColor(renderer, 200, 10, 10, 255);
+        SDL_RenderFillRect(renderer, &timeBar3);
+    }
+    if (jump_low) {
+        active[4]->render(renderer);
+        SDL_Rect timeBar4 = { 60, 270, (float)(5000 - (current - start_jump_low)) / 5000 * 180, 10 };
+        SDL_SetRenderDrawColor(renderer, 200, 10, 10, 255);
+        SDL_RenderFillRect(renderer, &timeBar4);
     }
 }
 

@@ -7,19 +7,18 @@
 
 static const int PIPE_WIDTH = 65;
 static const int PIPE_GAP = 200; // Khoảng cách giữa 2 ống
-
+extern double PIPE_SPEED;
 static const int PIPE_HEIGHT = 373;
-static const int PIPE_SPACING = 286;
+extern int PIPE_SPACING ;
 
 class Pipe {
 public:
     Pipe(SDL_Renderer* renderer, int startX);
     ~Pipe();
     int getgapY(); // Lấy vị trí Y của khoảng trống
-    void update();
+    void update(int last_x);
     void render(SDL_Renderer* renderer);
     int getX() { return x; }  // Lấy vị trí X để kiểm tra va chạm 
-    void check_win();
     bool isScored;
     static void increase_Speed();
     static void decrease_Speed();
@@ -32,7 +31,7 @@ private:
     SDL_Texture* upPipeTexture;
     SDL_Texture* lowPipeTexture;
     bool alpha;
-    static int PIPE_SPEED;
+    
 };
 
 

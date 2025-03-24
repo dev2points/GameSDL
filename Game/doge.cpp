@@ -15,6 +15,8 @@ Doge::Doge(SDL_Renderer* renderer,const char* filePath, int startX, int startY) 
     texture = SDL_CreateTextureFromSurface(renderer, tempSurface);
     SDL_FreeSurface(tempSurface);
 
+    velocity = -7.3;
+
     x = startX;
     y = startY;
 
@@ -42,10 +44,17 @@ std::string Doge::getFilePath() {
 }
 
 void Doge::jump() {
-    velocity = -7.3; // Nhảy lên với lực ban đầu 
     time = 0;        // Reset thời gian rơi
     y = dest.y;     // Lưu vị trí bắt đầu nhảy
     angle = -25;     // Nghiêng Doge lên khi nhảy
+}
+
+void Doge::increase_velocity() {
+    velocity -= 1.8;
+}
+
+void Doge::decrease_velocity() {
+    velocity += 1.8;
 }
 
 
@@ -69,7 +78,7 @@ void Doge::update() {
     if (dest.y + DOGE_HEIGHT >= BACKGROUND_HEIGHT) {
         dest.y = BACKGROUND_HEIGHT - DOGE_HEIGHT; // Đặt Doge đúng vị trí đất
         time = 0; // Reset thời gian rơi
-    }
+    }    
 }
 
 
@@ -97,6 +106,8 @@ void Doge::update_powerup(){
     dest.y += 1;
     dest.x -= 2;
 }
+
+
 
 
 

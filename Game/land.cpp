@@ -1,5 +1,6 @@
 
 #include "land.h"
+#include "pipe.h"
 #include <iostream>
 
 Land::Land(SDL_Renderer* renderer, const char* filePath, int width, int height) {
@@ -24,8 +25,8 @@ Land::~Land() {
     SDL_DestroyTexture(texture);
 }
 
-void Land::update() {
-    scrollX -= 3;
+void Land::update() { 
+    scrollX -=  (int) PIPE_SPEED ;
     if (scrollX <= -dest.w) {
         counter++;
         scrollX = 0;

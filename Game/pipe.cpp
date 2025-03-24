@@ -3,11 +3,12 @@
 #include <ctime>
 #include <iostream>
 
-int Pipe::PIPE_SPEED = 4;
+double PIPE_SPEED = 3;
+int PIPE_SPACING = 300;
 
 Pipe::Pipe(SDL_Renderer* renderer, int startX) {
     x = startX;
-    gapY = rand() % 230 + 20; // Vị trí khoảng trống giữa ống trên và dưới
+    gapY = rand() % 200 + 20; // Vị trí khoảng trống giữa ống trên và dưới
 
     upPipeTexture = IMG_LoadTexture(renderer, "assets/image/up_pipe.png");
     lowPipeTexture = IMG_LoadTexture(renderer, "assets/image/low_pipe.png");
@@ -25,13 +26,13 @@ Pipe::~Pipe() {
     SDL_DestroyTexture(lowPipeTexture);
 }
 
-void Pipe::update() {
-    x -= PIPE_SPEED;  // Ống di chuyển sang trái
+void Pipe::update(int last_x) {
+    x -= (int) PIPE_SPEED;  // Ống di chuyển sang trái
 
     // Nếu ống ra khỏi màn hình, reset lại vị trí
-    if (x + PIPE_WIDTH < 0 && !alpha) {
-        x = 1080;  // Đưa ống về lại bên phải màn hình
-        gapY = rand() % 300 + 20;
+    if (x + PIPE_WIDTH < 0) {
+        x = last_x + PIPE_SPACING ;  // Đưa ống về lại bên phải màn hình
+        gapY = rand() % 200 + 20;
         isScored = false;
     }
     //std::cout << PIPE_SPEED << std::endl;
@@ -52,10 +53,6 @@ void Pipe::render(SDL_Renderer* renderer) {
     SDL_RenderCopy(renderer, lowPipeTexture, &lowPipesrc, &lowPipedest);
 }
 
-void Pipe::check_win() {
-    alpha = 1;
-}
-
 void Pipe::increase_Speed() {
     PIPE_SPEED += 2;
 }
@@ -65,4 +62,5 @@ void Pipe::decrease_Speed() {
 void Pipe::set_speed() {
     PIPE_SPEED = 3;
 }
+
 
