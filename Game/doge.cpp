@@ -3,7 +3,7 @@
 
 
 
-Doge::Doge(SDL_Renderer* renderer,const char* filePath, int startX, int startY) {
+Doge::Doge(SDL_Renderer* renderer,const char* filePath, int startX, int startY, bool a) {
     SDL_Surface* tempSurface = IMG_Load(filePath);
     if (!tempSurface) {
         std::cout << "Lỗi tải ảnh Doge: " << IMG_GetError() << std::endl;
@@ -11,7 +11,7 @@ Doge::Doge(SDL_Renderer* renderer,const char* filePath, int startX, int startY) 
         return;
     }
 
-    filepath = filePath;
+    filepath = filePath;// Lấy đường dẫn dể kiểm tra powerup
     texture = SDL_CreateTextureFromSurface(renderer, tempSurface);
     SDL_FreeSurface(tempSurface);
 
@@ -20,8 +20,9 @@ Doge::Doge(SDL_Renderer* renderer,const char* filePath, int startX, int startY) 
     x = startX;
     y = startY;
 
-    dest = { startX, startY, DOGE_WIDTH, DOGE_HEIGHT };
-    SDL_QueryTexture(texture, NULL, NULL, &dest.w, &dest.h);    
+    src = { 0, 0, BIRD_WIDTH, BIRD_HEIGHT };// Rect lấy bird từ image
+    dest = { startX, startY, BIRD_WIDTH, BIRD_HEIGHT };// Rect vẽ bird   
+    if (!a) SDL_QueryTexture(texture, NULL, NULL, &dest.w, &dest.h);// Nếu không phải bird vẽ cả hình ảnh
 }
 
 Doge::~Doge() {
@@ -31,10 +32,17 @@ Doge::~Doge() {
 int Doge::getX() {
     return dest.x;
 }
-
 int Doge::getY() {
     return dest.y;
 }
+
+void Doge::set_x(int x) {
+    dest.x = x;
+}
+void Doge::set_y(int y) {
+    dest.y = y;
+}
+
 SDL_Rect Doge::getRect() {
     return dest;
 }
@@ -75,31 +83,28 @@ void Doge::update() {
     }
 
     // Kiểm tra nếu chạm đất
-    if (dest.y + DOGE_HEIGHT >= BACKGROUND_HEIGHT) {
-        dest.y = BACKGROUND_HEIGHT - DOGE_HEIGHT; // Đặt Doge đúng vị trí đất
+    if (dest.y + BIRD_HEIGHT >= BACKGROUND_HEIGHT) {
+        dest.y = BACKGROUND_HEIGHT - BIRD_HEIGHT; // Đặt Doge đúng vị trí đất
         time = 0; // Reset thời gian rơi
     }    
 }
+void Doge::update_src() {
+    Uint32 currentTime = SDL_GetTicks();
+    if (currentTime > lastUpdate + frameDelay) {
+        currentFrame = (currentFrame + 1) % 6;// 6 Frame 1 ảnh
+        lastUpdate = currentTime;
+    }
 
-
-void Doge::render(SDL_Renderer* renderer) {
-    SDL_RenderCopyEx(renderer, texture, NULL, &dest, angle, nullptr, SDL_FLIP_NONE);
 }
 
-void Doge::updateChampion() {
-    if (growing) {
-        championScale += 0.01; // Tăng kích thước mỗi frame
-        if (championScale >= 1) { // Giới hạn kích thước tối đa
-            championScale = 1;
-            growing = false;
-        }
+void Doge::render_bird(SDL_Renderer* renderer) {
+    src = { currentFrame % 3 * BIRD_WIDTH, currentFrame / 3 * BIRD_HEIGHT, BIRD_WIDTH, BIRD_HEIGHT };
+    SDL_RenderCopyEx(renderer, texture, &src, &dest, angle, nullptr, SDL_FLIP_NONE);
+}
 
-        // Áp dụng hiệu ứng phóng to
-        dest.w = static_cast<int>(300 * championScale);
-        dest.h = static_cast<int>(300 * championScale);
-        dest.x = x - (dest.w - 300) / 2; // Giữ vị trí trung tâm
-        dest.y = y + (dest.h - 300) / 2;
-    }
+void Doge::render(SDL_Renderer* renderer) {
+   
+    SDL_RenderCopyEx(renderer, texture, NULL, &dest, angle, nullptr, SDL_FLIP_NONE);
 }
 
 void Doge::update_powerup(){

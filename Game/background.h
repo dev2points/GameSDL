@@ -20,7 +20,8 @@ public:
 
     Background(SDL_Renderer* renderer, const char* filePath, int width, int height, bool center);
     ~Background();
-
+    int get_x();
+    int get_y();
     void update();
     void render(SDL_Renderer* renderer);
 

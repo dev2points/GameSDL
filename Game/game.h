@@ -72,6 +72,7 @@ private:
     bool increase_pipe_speed = false;
 
 
+
     Background* background_1;
     Background* background_2;
     Background* background_3;
@@ -81,12 +82,17 @@ private:
     Background* game_over;
     Background* replay;
 
-    Doge* doge;
+    Doge* setting;
+
+    Doge* bird_1;
+    Doge* bird_2;
+    Doge* bird;
+    
 
     std::vector <Pipe*> pipes;
-    std::vector <Doge*> units_large_one_digits;
-    std::vector <Doge*> units_large_two_digits;
-    std::vector <Doge*> tens_large_digits;
+   
+   
+   
 
     std::vector<SDL_Texture*> large_digits; // Vector lưu texture số lớn
     std::vector<SDL_Texture*> small_digits; // Vector lưu texture số lớn

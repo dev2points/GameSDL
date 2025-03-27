@@ -34,12 +34,12 @@ Game::Game(int screenWidth, int screenHeight) {
     sound_end = false;
     sound_playing = false;
 
-    score = 0;     
+    score = 49;     
         
     play = false; // Kiểm tra trạng thái bắt đầu chơi
     running = true; //  Trạng thái bắt đầu chạy chương trình
     lose = false; //    Thua game
-
+   
     // Khởi tạo Background, Doge và Land
     // Khởi tạo pointer để tồn tại xuyên suốt đến khi delete
     background_1 = new Background(renderer, "assets/image/background_1.jpg", screenWidth, BACKGROUND_HEIGHT , 0);
@@ -47,7 +47,9 @@ Game::Game(int screenWidth, int screenHeight) {
     background_3 = new Background(renderer, "assets/image/background_3.jpg", screenWidth, BACKGROUND_HEIGHT , 0);
     background_4 = new Background(renderer, "assets/image/background_4.png", screenWidth, BACKGROUND_HEIGHT , 0);
     message = new Background(renderer, "assets/image/message.png", (screenWidth - MESSAGE_WIDTH) / 2, (screenHeight - MESSAGE_HEIGHT) / 2 - 50, 1);
-    doge = new Doge(renderer, "assets/image/shiba.png", 429, 285); 
+    bird_1 = new Doge(renderer, "assets/image/bird_1.png", 429, 285, 1);    
+    bird_2 = new Doge(renderer, "assets/image/bird_2.png", 429, 285, 1);
+    bird = bird_1;
     
     game_over = new Background(renderer, "assets/image/gameOver.png", (screenWidth - 250) / 2, (screenHeight - 209) / 2 -50, 1);
     replay = new Background(renderer, "assets/image/replay.png", (screenWidth - 100) / 2, (screenHeight - 56) / 2 + 100 , 1);
@@ -102,18 +104,17 @@ Game::Game(int screenWidth, int screenHeight) {
     //Khởi tạo hiệu ứng pháo hoa
     for (int i = 1; i <= 8; i++) {
         std::string filePath = "assets/image/fire_works/" + std::to_string(i) + ".png";
-        fire_work_1.push_back(new Doge(renderer, filePath.c_str(), 150, 100));
+        fire_work_1.push_back(new Doge(renderer, filePath.c_str(), 150, 100, 0));
     }
     for (int i = 1; i <= 8; i++) {
         std::string filePath = "assets/image/fire_works/" + std::to_string(i) + ".png";
-        fire_work_2.push_back(new Doge(renderer, filePath.c_str(), 650, 100));
+        fire_work_2.push_back(new Doge(renderer, filePath.c_str(), 650, 100, 0));
     }
 
     lastSpawnTime = SDL_GetTicks(); // Lấy thời gian khi game khởi động để tạo powerup
 }
 
 void Game::setGame() {
-    delete doge;
     for (auto& pipe : pipes) {  
         delete pipe;
     }
@@ -123,7 +124,9 @@ void Game::setGame() {
     std::ifstream file("assets/high_score.txt");
     if (file) file >> highscore;
     score = 0;
-    doge = new Doge(renderer, "assets/image/shiba.png", 429, 285);
+    bird = bird_1;
+    bird->set_x(429);
+    bird->set_y(281);
     currentBg = background_1;
     currentLand = land_1;
     Fire_work=false;
@@ -147,7 +150,7 @@ Game::~Game() {
     delete background_1;
     delete background_2;
     delete background_3;
-    delete doge;
+    delete bird;
     for (auto& pipe : pipes) {
         delete pipe;
     }
@@ -171,8 +174,8 @@ bool Game::isLose() {
 }
 
 void Game::check() {
-    // Kiểm tra nếu Doge chạm vào đáy hoặc đỉnh background
-    if (doge->getY() <= 0 || doge->getY() + DOGE_HEIGHT >= BACKGROUND_HEIGHT) {
+    // Kiểm tra nếu Bird chạm vào đáy hoặc đỉnh background
+    if (bird->getY() <= 0 || bird->getY() + BIRD_HEIGHT >= BACKGROUND_HEIGHT) {
         lose = true;  
     }
 
@@ -181,12 +184,12 @@ void Game::check() {
     // Kiểm tra va chạm với ống
     if (!shield) {
         for (auto& pipe : pipes) {
-            SDL_Rect dogeRect = doge->getRect(); // Lấy hitbox của Doge
+            SDL_Rect birdRect = bird->getRect(); // Lấy hitbox của Bird
             SDL_Rect topPipeRect = { pipe->getX(), 0, PIPE_WIDTH, pipe->getgapY() }; // Ống trên
             SDL_Rect bottomPipeRect = { pipe->getX(), pipe->getgapY() + PIPE_GAP, PIPE_WIDTH, screenheight - (pipe->getgapY() + PIPE_GAP) }; // Ống dưới
 
-            // Kiểm tra nếu Doge va chạm với ống trên hoặc ống dưới
-            if (SDL_HasIntersection(&dogeRect, &topPipeRect) || SDL_HasIntersection(&dogeRect, &bottomPipeRect)) {
+            // Kiểm tra nếu Bird va chạm với ống trên hoặc ống dưới
+            if (SDL_HasIntersection(&birdRect, &topPipeRect) || SDL_HasIntersection(&birdRect, &bottomPipeRect)) {
                 lose = true;
             }
         }
@@ -194,8 +197,8 @@ void Game::check() {
 
 
     for (auto& pipe : pipes) {
-        // Kiểm tra nếu Doge vừa vượt qua cạnh phải của ống
-        if (doge->getX() >= pipe->getX() + PIPE_WIDTH && !pipe->isScored) {
+        // Kiểm tra nếu Bird vừa vượt qua cạnh phải của ống
+        if (bird->getX() >= pipe->getX() + PIPE_WIDTH && !pipe->isScored) {
             score++;
             Mix_PlayChannel(-1, sound->score, 0);
             pipe->isScored = true; // Đánh dấu ống đã được tính điểm
@@ -225,21 +228,30 @@ void Game::handleEvents() {
         if (event.type == SDL_QUIT) {
             running = false;
         }
-        if (event.type == SDL_MOUSEBUTTONDOWN ||
-            (event.type == SDL_KEYDOWN && (event.key.keysym.sym == SDLK_SPACE || event.key.keysym.sym == SDLK_UP))) {
-            if (!sound_playing) {
-                Mix_PlayMusic(sound->playing, -1);
-                sound_playing = true;
+        if (lose) {
+            if (event.type == SDL_MOUSEBUTTONDOWN) {
+                int x, y;
+                SDL_GetMouseState(&x, &y);
+                int X = replay->get_x();
+                int Y = replay->get_y();
+                if (x >= X && y >= Y && x <= X + 100 && y <= Y + 56) { // Kiểm tra click chuột có nằm trên replay không
+                    play = false;
+                    setGame();
+                    lose = false;
+                }
+                    
             }
-            play = true;
-            if (!lose) {
-                doge->jump();
-                Mix_PlayChannel(-1, sound->jump, 0);               
-            }
-            else {
-                play = false;
-                setGame();
-                lose = false;
+        }
+        else{
+            if (event.type == SDL_MOUSEBUTTONDOWN ||
+                (event.type == SDL_KEYDOWN && (event.key.keysym.sym == SDLK_SPACE || event.key.keysym.sym == SDLK_UP))) {
+                if (!sound_playing) {
+                    Mix_PlayMusic(sound->playing, -1);
+                    sound_playing = true;
+                }
+                play = true;                
+                bird->jump();
+                Mix_PlayChannel(-1, sound->jump, 0);                
             }
         }
     }
@@ -288,7 +300,7 @@ void Game::render_score() {
         // Hiển thị huy chương
         // Ghi high score mới
         if (score > highscore) {
-            medal = new Doge(renderer, "assets/image/champion.png", 400, 267);
+            medal = new Doge(renderer, "assets/image/champion.png", 400, 267, 0);
             std::ofstream outputFile("assets/high_score.txt");
             if (outputFile.is_open()) {
                 outputFile << score;
@@ -296,9 +308,9 @@ void Game::render_score() {
             }           
             Fire_work = true;
         }
-        else if (score >= highscore * 3 / 4) medal = new Doge(renderer, "assets/image/gold.png", 440, 267);
-        else if (score >= highscore / 2) medal = new Doge(renderer, "assets/image/silver.png", 440, 267);
-        else if (score >= highscore / 4) medal = new Doge(renderer, "assets/image/honor.png", 440, 267);
+        else if (score >= highscore * 3 / 4) medal = new Doge(renderer, "assets/image/gold.png", 440, 267, 0);
+        else if (score >= highscore / 2) medal = new Doge(renderer, "assets/image/silver.png", 440, 267, 0);
+        else if (score >= highscore / 4) medal = new Doge(renderer, "assets/image/honor.png", 440, 267, 0);
         if (medal) medal->render(renderer);    
     }
 }
@@ -319,9 +331,10 @@ void Game::update() {
         }
         currentBg->update();
         currentLand->update();
-    }
+        bird->update_src();
 
-    doge->update();
+    }
+    bird->update();
 
     if (play && !lose) {
         // Tạo vật phẩm mỗi 5 giây
@@ -346,11 +359,11 @@ void Game::update() {
             shield = false;
         }
         if (jump_high && SDL_GetTicks() - start_jump_high > 5000) { // Sau 5 giây
-            doge->decrease_velocity();
+            bird->decrease_velocity();
             jump_high = false;
         }
         if (jump_low && SDL_GetTicks() - start_jump_low > 5000) { // Sau 5 giây
-            doge->increase_velocity();
+            bird->increase_velocity();
             jump_low = false;
         }
     }
@@ -360,7 +373,7 @@ void Game::render() {
     SDL_RenderClear(renderer);
 
     if (score % 30 == 0) {  // Mỗi khi score chia hết cho 30
-        int bgIndex = (score / 30) % 4; // Lấy chỉ số background (0, 1, 2 lặp lại)
+        int bgIndex = (score / 30) % 4; // Lấy chỉ số background (0, 1, 2, 3 lặp lại)
 
         if (bgIndex == 0) {
             currentBg = background_1;
@@ -381,18 +394,25 @@ void Game::render() {
     }
     currentBg->render(renderer);    
 
+    if (score % 50 == 0) {
+        int Bird_index = score / 50 % 2;
+        if (Bird_index == 1) bird = bird_2;
+        else bird = bird_1;
+    }
+
     // Vẽ pipes
     for (auto& pipe : pipes) {
         pipe->render(renderer);
     }
 
-    // Vẽ Doge
-    doge->render(renderer);
+    // Vẽ Bird
+    bird->render_bird(renderer);
 
     currentLand->render(renderer);    
 
     // Vẽ thông báo nếu chưa chơi
     if (!play) message->render(renderer);
+    
 
     // Vẽ vật phẩm hỗ trợ
     for (auto& powerUp : powerUps) {
@@ -420,11 +440,11 @@ void Game::render() {
 }
 
 void Game::spawnPowerUp() {
-    active.push_back( new Doge(renderer, "assets/image/power_up/shield.png", 10, 10));
-    active.push_back( new Doge(renderer, "assets/image/power_up/speed_up.png", 10, 63));
-    active.push_back( new Doge(renderer, "assets/image/power_up/speed_down.png", 10, 123));
-    active.push_back( new Doge(renderer, "assets/image/power_up/jump_high.png", 10, 173));
-    active.push_back(new Doge(renderer, "assets/image/power_up/jump_low.png", 10, 223));
+    active.push_back( new Doge(renderer, "assets/image/power_up/shield.png", 10, 10, 0));
+    active.push_back( new Doge(renderer, "assets/image/power_up/speed_up.png", 10, 63, 0));
+    active.push_back( new Doge(renderer, "assets/image/power_up/speed_down.png", 10, 123, 0));
+    active.push_back( new Doge(renderer, "assets/image/power_up/jump_high.png", 10, 173, 0));
+    active.push_back(new Doge(renderer, "assets/image/power_up/jump_low.png", 10, 223, 0));
 
 
     int randX = rand() % (screenwidth - 429 - 50) + 429 + 50;// Xuất hiện vật phẩm cách vị trí doge 50 pixel
@@ -439,7 +459,7 @@ void Game::spawnPowerUp() {
     case 4: filePath = "assets/image/power_up/jump_low.png"; break;
     }
 
-    powerUps.push_back(new Doge(renderer, filePath.c_str(), randX, 0)); // Xuất hiện trên đỉnh màn hình
+    powerUps.push_back(new Doge(renderer, filePath.c_str(), randX, 0, 0)); // Xuất hiện trên đỉnh màn hình
 }
 
 void Game::updatePowerUps() {
@@ -456,7 +476,7 @@ void Game::updatePowerUps() {
 }
 
 void Game::checkPowerUpCollision() {
-    SDL_Rect dogeRect = doge->getRect(); // Lấy hitbox của nhân vật chính
+    SDL_Rect dogeRect = bird->getRect(); // Lấy hitbox của nhân vật chính
 
     for (size_t i = 0; i < powerUps.size(); i++) {
         SDL_Rect powerUpRect = powerUps[i]->getRect(); // Lấy hitbox của vật phẩm
@@ -485,14 +505,14 @@ void Game::checkPowerUpCollision() {
             else if (powerUps[i]->getFilePath() == "assets/image/power_up/jump_high.png") {                
                 start_jump_high = SDL_GetTicks();
                 if (!jump_high) {
-                    doge->increase_velocity();
+                    bird->increase_velocity();
                     jump_high = true;
                 }
             }
             else if (powerUps[i]->getFilePath() == "assets/image/power_up/jump_low.png") {
                 start_jump_low = SDL_GetTicks();
                 if (!jump_low) {
-                    doge->decrease_velocity();
+                    bird->decrease_velocity();
                     jump_low = true;
                 }
             }     

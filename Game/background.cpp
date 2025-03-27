@@ -12,7 +12,7 @@ Background::Background(SDL_Renderer* renderer, const char* filePath, int width, 
     screenWidth = width;
     screenHeight = height;
     scrollX = 0;
-    SDL_QueryTexture(texture, NULL, NULL, &dest.w, &dest.h);
+    SDL_QueryTexture(texture, NULL, NULL, &dest.w, &dest.h);// Lấy kích thước ảnh
 
     dest.x = width ;
     dest.y = height;
@@ -56,3 +56,9 @@ SDL_Texture* Background::getTexture() {
     return texture;
 }
 
+int Background::get_x() {
+    return dest.x;
+}
+int Background::get_y() {
+    return dest.y;
+}
