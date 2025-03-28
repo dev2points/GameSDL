@@ -1,7 +1,9 @@
 ﻿#include "game.h"
+
 #include <iostream>
 #include <string>
 #include<fstream>
+#include <algorithm>
 
 
 Game::Game(int screenWidth, int screenHeight) {
@@ -28,13 +30,16 @@ Game::Game(int screenWidth, int screenHeight) {
         running = false;
         return;
     }
+    if (TTF_Init() == -1) {
+        std::cerr << "Error initializing SDL_ttf: " << TTF_GetError() << std::endl;
+    }
 
     // Khởi tạo sound
     sound = new Sound();
     sound_end = false;
     sound_playing = false;
 
-    score = 49;     
+    score = 56;     
         
     play = false; // Kiểm tra trạng thái bắt đầu chơi
     running = true; //  Trạng thái bắt đầu chạy chương trình
@@ -47,12 +52,16 @@ Game::Game(int screenWidth, int screenHeight) {
     background_3 = new Background(renderer, "assets/image/background_3.jpg", screenWidth, BACKGROUND_HEIGHT , 0);
     background_4 = new Background(renderer, "assets/image/background_4.png", screenWidth, BACKGROUND_HEIGHT , 0);
     message = new Background(renderer, "assets/image/message.png", (screenWidth - MESSAGE_WIDTH) / 2, (screenHeight - MESSAGE_HEIGHT) / 2 - 50, 1);
-    bird_1 = new Doge(renderer, "assets/image/bird_1.png", 429, 285, 1);    
+
+    bird_1 = new Doge(renderer, "assets/image/bird_1.png", 429, 285, 1);
     bird_2 = new Doge(renderer, "assets/image/bird_2.png", 429, 285, 1);
     bird = bird_1;
     
     game_over = new Background(renderer, "assets/image/gameOver.png", (screenWidth - 250) / 2, (screenHeight - 209) / 2 -50, 1);
     replay = new Background(renderer, "assets/image/replay.png", (screenWidth - 100) / 2, (screenHeight - 56) / 2 + 100 , 1);
+    sound_1 = new Doge(renderer, "assets/image/sound_1.png", 5, 0, 5);
+    sound_0 = new Doge(renderer, "assets/image/sound_0.png", 5, 0, 5);
+    sound_check = sound_1;
 
     // Khởi tạo 4 ống với khoảng cách nhau
     for (int i = 0; i < 4; i++) {
@@ -114,15 +123,13 @@ Game::Game(int screenWidth, int screenHeight) {
     lastSpawnTime = SDL_GetTicks(); // Lấy thời gian khi game khởi động để tạo powerup
 }
 
-void Game::setGame() {
+void Game::setGame(){
+   // textTexture;
     for (auto& pipe : pipes) {  
         delete pipe;
     }
     sound_playing = false;
     pipes.clear();
-    // Đọc high score từ file
-    std::ifstream file("assets/high_score.txt");
-    if (file) file >> highscore;
     score = 0;
     bird = bird_1;
     bird->set_x(429);
@@ -135,7 +142,7 @@ void Game::setGame() {
     for (int i = 0; i < 4; i++) {
         pipes.push_back(new Pipe(renderer, 1080 + i * PIPE_SPACING));
     }
-    Mix_HaltChannel(-1);
+    Mix_HaltChannel(-1);// Dừng phát âm thanh
     Mix_PlayMusic(sound->waiting, -1);
 
     powerUps.clear();
@@ -183,16 +190,16 @@ void Game::check() {
 
     // Kiểm tra va chạm với ống
     if (!shield) {
-        for (auto& pipe : pipes) {
-            SDL_Rect birdRect = bird->getRect(); // Lấy hitbox của Bird
-            SDL_Rect topPipeRect = { pipe->getX(), 0, PIPE_WIDTH, pipe->getgapY() }; // Ống trên
-            SDL_Rect bottomPipeRect = { pipe->getX(), pipe->getgapY() + PIPE_GAP, PIPE_WIDTH, screenheight - (pipe->getgapY() + PIPE_GAP) }; // Ống dưới
+        //for (auto& pipe : pipes) {
+        //    SDL_Rect birdRect = bird->getRect(); // Lấy hitbox của Bird
+        //    SDL_Rect topPipeRect = { pipe->getX(), 0, PIPE_WIDTH, pipe->getgapY() }; // Ống trên
+        //    SDL_Rect bottomPipeRect = { pipe->getX(), pipe->getgapY() + PIPE_GAP, PIPE_WIDTH, screenheight - (pipe->getgapY() + PIPE_GAP) }; // Ống dưới
 
-            // Kiểm tra nếu Bird va chạm với ống trên hoặc ống dưới
-            if (SDL_HasIntersection(&birdRect, &topPipeRect) || SDL_HasIntersection(&birdRect, &bottomPipeRect)) {
-                lose = true;
-            }
-        }
+        //    // Kiểm tra nếu Bird va chạm với ống trên hoặc ống dưới
+        //    if (SDL_HasIntersection(&birdRect, &topPipeRect) || SDL_HasIntersection(&birdRect, &bottomPipeRect)) {
+        //        lose = true;
+        //    }
+        //}
     }
 
 
@@ -228,10 +235,34 @@ void Game::handleEvents() {
         if (event.type == SDL_QUIT) {
             running = false;
         }
-        if (lose) {
-            if (event.type == SDL_MOUSEBUTTONDOWN) {
-                int x, y;
-                SDL_GetMouseState(&x, &y);
+        if (event.type == SDL_MOUSEBUTTONDOWN) {
+            int x, y;
+            SDL_GetMouseState(&x, &y);
+            int sound_X = sound_check->getX();
+            int sound_Y = sound_check->getY();
+            if (x >= sound_X && y >= sound_Y && x <= sound_X + 80 && y <= sound_Y + 49) { // Kiểm tra click chuột có nằm trên sound không
+                if (sound_check == sound_1) {
+                    sound_check = sound_0;
+                    Mix_Volume(-1, 0);  // Tắt tiếng tất cả các sound effect
+                    Mix_VolumeMusic(0); // Tắt tiếng nhạc nền
+                }
+                else {
+                    sound_check = sound_1;
+                    Mix_Volume(-1, MIX_MAX_VOLUME); // Bật lại sound effect
+                    Mix_VolumeMusic(20); // Bật lại nhạc nền
+
+                }
+            }
+            else {
+                if (!sound_playing) {
+                    Mix_PlayMusic(sound->playing, -1);
+                    sound_playing = true;
+                }
+                play = true;
+                bird->jump();
+                Mix_PlayChannel(-1, sound->jump, 0);
+            }
+            if (lose) {
                 int X = replay->get_x();
                 int Y = replay->get_y();
                 if (x >= X && y >= Y && x <= X + 100 && y <= Y + 56) { // Kiểm tra click chuột có nằm trên replay không
@@ -239,19 +270,17 @@ void Game::handleEvents() {
                     setGame();
                     lose = false;
                 }
-                    
             }
         }
-        else{
-            if (event.type == SDL_MOUSEBUTTONDOWN ||
-                (event.type == SDL_KEYDOWN && (event.key.keysym.sym == SDLK_SPACE || event.key.keysym.sym == SDLK_UP))) {
+        if(!lose){
+            if (event.type == SDL_KEYDOWN && (event.key.keysym.sym == SDLK_SPACE || event.key.keysym.sym == SDLK_UP)) {
                 if (!sound_playing) {
                     Mix_PlayMusic(sound->playing, -1);
                     sound_playing = true;
                 }
-                play = true;                
+                play = true;
                 bird->jump();
-                Mix_PlayChannel(-1, sound->jump, 0);                
+                Mix_PlayChannel(-1, sound->jump, 0);
             }
         }
     }
@@ -263,10 +292,10 @@ void Game::render_score() {
     std::string scoreStr = std::to_string(score);  // Chuyển điểm thành chuỗi
     int numDigits = scoreStr.length();
 
-    int digitWidth = 30;   // Kích thước chữ số (điều chỉnh theo ảnh)
+    int digitWidth = 30;   // Kích thước chữ số 
     int digitHeight = 50;
     int totalWidth = numDigits * digitWidth;
-    int startX = (1000 - totalWidth) / 2; // Căn giữa màn hình
+    int startX = (screenwidth - totalWidth) / 2; // Căn giữa màn hình
 
     if (!lose) { // Khi chưa thua, hiển thị điểm lớn
         for (char c : scoreStr) {
@@ -306,11 +335,12 @@ void Game::render_score() {
                 outputFile << score;
                 outputFile.close();
             }           
+           highscore = score;
             Fire_work = true;
         }
-        else if (score >= highscore * 3 / 4) medal = new Doge(renderer, "assets/image/gold.png", 440, 267, 0);
-        else if (score >= highscore / 2) medal = new Doge(renderer, "assets/image/silver.png", 440, 267, 0);
-        else if (score >= highscore / 4) medal = new Doge(renderer, "assets/image/honor.png", 440, 267, 0);
+        else if (score >= highscore * 3 / 4) medal = new Doge(renderer, "assets/image/gold.png", 400, 267, 0);
+        else if (score >= highscore / 2) medal = new Doge(renderer, "assets/image/silver.png", 400, 267, 0);
+        else if (score >= highscore / 4) medal = new Doge(renderer, "assets/image/honor.png", 400, 267, 0);
         if (medal) medal->render(renderer);    
     }
 }
@@ -347,7 +377,7 @@ void Game::update() {
         for (Doge* powerup : powerUps) {
             powerup->update_powerup();
         }
-        if (is_increase_Speed && SDL_GetTicks() - increase_speed_Time > 3000) { // Sau 2 giây
+        if (is_increase_Speed && SDL_GetTicks() - increase_speed_Time > 3000) { // Sau 3 giây
             Pipe::decrease_Speed(); // Reset về tốc độ mặc định 
             is_increase_Speed = false; // Đánh dấu đã reset
         }
@@ -359,11 +389,11 @@ void Game::update() {
             shield = false;
         }
         if (jump_high && SDL_GetTicks() - start_jump_high > 5000) { // Sau 5 giây
-            bird->decrease_velocity();
+            bird->decrease_velocity();           
             jump_high = false;
         }
         if (jump_low && SDL_GetTicks() - start_jump_low > 5000) { // Sau 5 giây
-            bird->increase_velocity();
+            bird->increase_velocity();         
             jump_low = false;
         }
     }
@@ -412,6 +442,7 @@ void Game::render() {
 
     // Vẽ thông báo nếu chưa chơi
     if (!play) message->render(renderer);
+    else if(!lose) render_highscore();
     
 
     // Vẽ vật phẩm hỗ trợ
@@ -434,17 +465,18 @@ void Game::render() {
         Mix_PlayChannel(-1, sound->fire_work, -1);
         Mix_VolumeChunk(sound->fire_work, 10);
     }
+    sound_check->render(renderer);
 
     SDL_RenderPresent(renderer);
 
 }
 
 void Game::spawnPowerUp() {
-    active.push_back( new Doge(renderer, "assets/image/power_up/shield.png", 10, 10, 0));
-    active.push_back( new Doge(renderer, "assets/image/power_up/speed_up.png", 10, 63, 0));
-    active.push_back( new Doge(renderer, "assets/image/power_up/speed_down.png", 10, 123, 0));
-    active.push_back( new Doge(renderer, "assets/image/power_up/jump_high.png", 10, 173, 0));
-    active.push_back(new Doge(renderer, "assets/image/power_up/jump_low.png", 10, 223, 0));
+    active.push_back( new Doge(renderer, "assets/image/power_up/shield.png", 10, 65, 0));
+    active.push_back( new Doge(renderer, "assets/image/power_up/speed_up.png", 10, 118, 0));
+    active.push_back( new Doge(renderer, "assets/image/power_up/speed_down.png", 10, 178, 0));
+    active.push_back( new Doge(renderer, "assets/image/power_up/jump_high.png", 10, 228, 0));
+    active.push_back(new Doge(renderer, "assets/image/power_up/jump_low.png", 10, 273, 0));
 
 
     int randX = rand() % (screenwidth - 429 - 50) + 429 + 50;// Xuất hiện vật phẩm cách vị trí doge 50 pixel
@@ -528,33 +560,81 @@ void Game::render_active() {
     Uint32 current = SDL_GetTicks();
     if (shield) {
         active[0]->render(renderer);
-        SDL_Rect timeBar0 = { 60, 30, (float)(3000 - (current - shieldStartTime)) / 3000 * 180, 10 };
+        SDL_Rect timeBar0 = { 60, 90, (float)(3000 - (current - shieldStartTime)) / 3000 * 180, 10 };
         SDL_SetRenderDrawColor(renderer, 200, 10, 10, 255);
         SDL_RenderFillRect(renderer, &timeBar0);
     }
     if (is_increase_Speed) {
         active[1]->render(renderer);
-        SDL_Rect timeBar1 = { 60, 90, (float)(3000 - (current - increase_speed_Time)) / 3000 * 180, 10 };
+        SDL_Rect timeBar1 = { 60, 150, (float)(3000 - (current - increase_speed_Time)) / 3000 * 180, 10 };
         SDL_SetRenderDrawColor(renderer, 200, 10, 10, 255);
         SDL_RenderFillRect(renderer, &timeBar1);
     }
     if (is_decrease_Speed) {
         active[2]->render(renderer);
-        SDL_Rect timeBar2 = { 60, 142, (float)(3000 - (current - decrease_speed_Time)) / 3000 * 180, 10 };
+        SDL_Rect timeBar2 = { 60, 192, (float)(3000 - (current - decrease_speed_Time)) / 3000 * 180, 10 };
         SDL_SetRenderDrawColor(renderer, 200, 10, 10, 255);
         SDL_RenderFillRect(renderer, &timeBar2);
     }
     if (jump_high) {
         active[3]->render(renderer);
-        SDL_Rect timeBar3 = { 60, 200, (float)(5000 - (current - start_jump_high)) / 5000 * 180, 10 };
+        SDL_Rect timeBar3 = { 60, 250, (float)(5000 - (current - start_jump_high)) / 5000 * 180, 10 };
         SDL_SetRenderDrawColor(renderer, 200, 10, 10, 255);
         SDL_RenderFillRect(renderer, &timeBar3);
     }
     if (jump_low) {
         active[4]->render(renderer);
-        SDL_Rect timeBar4 = { 60, 270, (float)(5000 - (current - start_jump_low)) / 5000 * 180, 10 };
+        SDL_Rect timeBar4 = { 60, 290, (float)(5000 - (current - start_jump_low)) / 5000 * 180, 10 };
         SDL_SetRenderDrawColor(renderer, 200, 10, 10, 255);
         SDL_RenderFillRect(renderer, &timeBar4);
     }
 }
+
+void Game::render_highscore() {
+    // Xác định giá trị hiển thị
+    int newDisplayHighscore = std::max(score, highscore);
+
+    // Chỉ cập nhật nếu giá trị hiển thị thay đổi
+    if (newDisplayHighscore != displayHighscore) {
+        displayHighscore = newDisplayHighscore;
+
+        // Giải phóng texture cũ nếu có
+        if (textTexture != nullptr) {
+            SDL_DestroyTexture(textTexture);
+            textTexture = nullptr;
+        }
+
+        // Load font
+        TTF_Font* font = TTF_OpenFont("assets/font.ttf", 30);
+        if (!font) {
+            std::cerr << "Failed to load font: " << TTF_GetError() << std::endl;
+            return;
+        }
+
+        // Tạo text mới
+        SDL_Color textColor = { 240, 230, 250, 255 }; // Màu trắng
+        std::string highScoreText = "High Score: " + std::to_string(displayHighscore);
+        SDL_Surface* textSurface = TTF_RenderText_Solid(font, highScoreText.c_str(), textColor);
+        if (!textSurface) {
+            std::cerr << "Failed to create text surface: " << TTF_GetError() << std::endl;
+            TTF_CloseFont(font);
+            return;
+        }
+
+        textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+        SDL_FreeSurface(textSurface);
+        TTF_CloseFont(font);
+
+        // Cập nhật vị trí hiển thị
+        int textW = 0, textH = 0;
+        SDL_QueryTexture(textTexture, NULL, NULL, &textW, &textH);
+        textRect = { screenwidth - textW - 10, 10, textW, textH };
+    }
+
+    // Vẽ highscore lên màn hình
+    if (textTexture != nullptr) {
+        SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
+    }
+}
+
 

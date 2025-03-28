@@ -2,6 +2,7 @@
 
 #include <SDL.h>
 #include <SDL_mixer.h>
+#include <SDL_ttf.h>
 #include <vector>
 #include "background.h"
 #include "doge.h"
@@ -35,11 +36,15 @@ public:
     void checkPowerUpCollision();
     void render_active();
 
+    void render_highscore();
 
 private:
 
     SDL_Window* window;
     SDL_Renderer* renderer;
+    SDL_Texture* textTexture;
+    SDL_Rect textRect;
+
     int screenwidth, screenheight;
 
     bool running, play, lose;
@@ -87,12 +92,12 @@ private:
     Doge* bird_1;
     Doge* bird_2;
     Doge* bird;
-    
 
-    std::vector <Pipe*> pipes;
-   
-   
-   
+    Doge* sound_check;
+    Doge* sound_1;
+    Doge* sound_0;    
+
+    std::vector <Pipe*> pipes;    
 
     std::vector<SDL_Texture*> large_digits; // Vector lưu texture số lớn
     std::vector<SDL_Texture*> small_digits; // Vector lưu texture số lớn
@@ -122,4 +127,7 @@ private:
     std::vector<Doge*> active;// danh sách vật phẩm có hiệu lực
     int powerUpTimer; // Biến đếm thời gian xuất hiện vật phẩm
 
+    int displayHighscore;
+
 };
+
