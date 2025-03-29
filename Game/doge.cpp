@@ -1,7 +1,7 @@
 ﻿
 #include "doge.h"
 
-
+bool reverse = false;
 
 Doge::Doge(SDL_Renderer* renderer,const char* filePath, int startX, int startY, bool a) {
     SDL_Surface* tempSurface = IMG_Load(filePath);
@@ -16,6 +16,7 @@ Doge::Doge(SDL_Renderer* renderer,const char* filePath, int startX, int startY, 
     SDL_FreeSurface(tempSurface);
 
     velocity = -7.3;
+	
 
     x = startX;
     y = startY;
@@ -73,7 +74,9 @@ void Doge::update() {
     }
 
     // Cập nhật vị trí theo công thức vật lý
-    dest.y = y + time * time * 0.18 + velocity * time;
+	if (!reverse) dest.y = y + time * time * 0.18 + velocity * time;
+	else dest.y = y - time * time * 0.18 - velocity * time;
+   
     time++;
 
     // Giới hạn góc xoay khi rơi

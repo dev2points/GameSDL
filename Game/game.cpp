@@ -39,11 +39,12 @@ Game::Game(int screenWidth, int screenHeight) {
     sound_end = false;
     sound_playing = false;
 
-    score = 56;     
+    score = 44;     
         
     play = false; // Kiểm tra trạng thái bắt đầu chơi
     running = true; //  Trạng thái bắt đầu chạy chương trình
     lose = false; //    Thua game
+	bool reverse = false;
    
     // Khởi tạo Background, Doge và Land
     // Khởi tạo pointer để tồn tại xuyên suốt đến khi delete
@@ -106,9 +107,9 @@ Game::Game(int screenWidth, int screenHeight) {
             small_digits.push_back(nullptr); // Tránh lỗi nếu ảnh không load được
         }
     }
-    // Đọc high score từ file
+    // Đọc high highscore từ file
     std::ifstream file("assets/high_score.txt");
-    if (file) file >> highscore;
+    if (file) file >> highscore;	
 
     //Khởi tạo hiệu ứng pháo hoa
     for (int i = 1; i <= 8; i++) {
@@ -136,7 +137,8 @@ void Game::setGame(){
     bird->set_y(281);
     currentBg = background_1;
     currentLand = land_1;
-    Fire_work=false;
+    Fire_work = false;
+	reverse = false;
     Pipe::set_speed();
     // Khởi tạo 4 ống với khoảng cách nhau
     for (int i = 0; i < 4; i++) {
@@ -189,18 +191,18 @@ void Game::check() {
     checkPowerUpCollision();
 
     // Kiểm tra va chạm với ống
-    if (!shield) {
-        //for (auto& pipe : pipes) {
-        //    SDL_Rect birdRect = bird->getRect(); // Lấy hitbox của Bird
-        //    SDL_Rect topPipeRect = { pipe->getX(), 0, PIPE_WIDTH, pipe->getgapY() }; // Ống trên
-        //    SDL_Rect bottomPipeRect = { pipe->getX(), pipe->getgapY() + PIPE_GAP, PIPE_WIDTH, screenheight - (pipe->getgapY() + PIPE_GAP) }; // Ống dưới
+    /*/if (!shield) {
+        for (auto& pipe : pipes) {
+           SDL_Rect birdRect = bird->getRect(); // Lấy hitbox của Bird
+           SDL_Rect topPipeRect = { pipe->getX(), 0, PIPE_WIDTH, pipe->getgapY() }; // Ống trên
+           SDL_Rect bottomPipeRect = { pipe->getX(), pipe->getgapY() + PIPE_GAP, PIPE_WIDTH, screenheight - (pipe->getgapY() + PIPE_GAP) }; // Ống dưới
 
-        //    // Kiểm tra nếu Bird va chạm với ống trên hoặc ống dưới
-        //    if (SDL_HasIntersection(&birdRect, &topPipeRect) || SDL_HasIntersection(&birdRect, &bottomPipeRect)) {
-        //        lose = true;
-        //    }
-        //}
-    }
+            // Kiểm tra nếu Bird va chạm với ống trên hoặc ống dưới
+           if (SDL_HasIntersection(&birdRect, &topPipeRect) || SDL_HasIntersection(&birdRect, &bottomPipeRect)) {
+               lose = true;
+           }
+       }
+    }*/
 
 
     for (auto& pipe : pipes) {
@@ -219,13 +221,13 @@ void Game::check() {
     }
     if (score > 0 && score % 10 == 0) {
         if (!increase_pipe_speed) {
-            if(PIPE_SPEED < 11)   PIPE_SPEED += 0.2;
+            if(PIPE_SPEED < 11)   PIPE_SPEED += 0.1;
             if(PIPE_SPACING < 500)    PIPE_SPACING += 5;
             increase_pipe_speed = true;
         }
     }
     else increase_pipe_speed = false;
-//std::cout << PIPE_SPEED<<" "<<pipe << std::endl;
+
 }
 
 
@@ -294,7 +296,7 @@ void Game::render_score() {
 
     int digitWidth = 30;   // Kích thước chữ số 
     int digitHeight = 50;
-    int totalWidth = numDigits * digitWidth;
+	int totalWidth = numDigits * digitWidth; // Tổng chiều rộng của điểm
     int startX = (screenwidth - totalWidth) / 2; // Căn giữa màn hình
 
     if (!lose) { // Khi chưa thua, hiển thị điểm lớn
@@ -306,13 +308,31 @@ void Game::render_score() {
         }
     }
     else { // Khi thua, hiển thị điểm nhỏ + high score
+        
+        if (medal) medal->render(renderer);
+        else {
+            // Hiển thị huy chương
+            // Ghi high score mới
+            if (score > highscore) {
+                std::ofstream outputFile("assets/high_score.txt");
+                if (outputFile.is_open()) {
+                    outputFile << score;
+                    outputFile.close();
+                }
+                medal = new Doge(renderer, "assets/image/champion.png", 400, 267, 0);
+				highscore = score;            
+                Fire_work = true;
+            }
+            else if (score >= highscore * 3 / 4)    medal = new Doge(renderer, "assets/image/gold.png", 400, 267, 0);                
+            else if (score >= highscore / 2)     medal = new Doge(renderer, "assets/image/silver.png", 400, 267, 0);
+            else if (score >= highscore / 4)     medal = new Doge(renderer, "assets/image/honor.png", 400, 267, 0);
+        }
         int smallY = 260, highY = 306;
         startX = 585 - (numDigits * 10); // Dịch vị trí để căn chỉnh
         for (char c : scoreStr) {
             int digit = c - '0';
             SDL_Rect destRect = { startX, smallY, 20, 30 };
-            SDL_RenderCopy(renderer, small_digits[digit], nullptr, &destRect);
-           // SDL_RenderCopy()
+            SDL_RenderCopy(renderer, small_digits[digit], nullptr, &destRect);           
             startX += 20;
         }
 
@@ -324,24 +344,8 @@ void Game::render_score() {
             SDL_Rect destRect = { startX, highY, 20, 30 };
             SDL_RenderCopy(renderer, small_digits[digit], nullptr, &destRect);
             startX += 20;
-        }
-
-        // Hiển thị huy chương
-        // Ghi high score mới
-        if (score > highscore) {
-            medal = new Doge(renderer, "assets/image/champion.png", 400, 267, 0);
-            std::ofstream outputFile("assets/high_score.txt");
-            if (outputFile.is_open()) {
-                outputFile << score;
-                outputFile.close();
-            }           
-           highscore = score;
-            Fire_work = true;
-        }
-        else if (score >= highscore * 3 / 4) medal = new Doge(renderer, "assets/image/gold.png", 400, 267, 0);
-        else if (score >= highscore / 2) medal = new Doge(renderer, "assets/image/silver.png", 400, 267, 0);
-        else if (score >= highscore / 4) medal = new Doge(renderer, "assets/image/honor.png", 400, 267, 0);
-        if (medal) medal->render(renderer);    
+        }         
+        		
     }
 }
 
@@ -355,6 +359,32 @@ void Game::render_fireworks() {
 
 
 void Game::update() {
+    if (score % 30 == 0) {  // Mỗi khi score chia hết cho 30
+        int bgIndex = (score / 30) % 4; // Lấy chỉ số background (0, 1, 2, 3 lặp lại)
+
+        if (bgIndex == 0) {
+            currentBg = background_1;
+            currentLand = land_1;
+        }
+        else if (bgIndex == 1) {
+            currentBg = background_2;
+            currentLand = land_2;
+        }
+        else if (bgIndex == 2) {
+            currentBg = background_3;
+            currentLand = land_3;
+        }
+        else if (bgIndex == 3) {
+            currentBg = background_4;
+            currentLand = land_4;
+        }
+    }
+    if (score % 50 == 0) {
+        int Bird_index = score / 50 % 2;
+        if (Bird_index == 1) bird = bird_2;
+        else bird = bird_1;
+        bird->set_y(bird->getY() - 10);
+    }
     if (!lose) {
         for (int i = 0; i < 4; i++) {
             pipes[i]->update(pipes[(i + 3) % 4]->getX());
@@ -365,6 +395,7 @@ void Game::update() {
 
     }
     bird->update();
+    if(score >= 50) reverse = (score % 50) < 10;
 
     if (play && !lose) {
         // Tạo vật phẩm mỗi 5 giây
@@ -401,34 +432,8 @@ void Game::update() {
 
 void Game::render() {
     SDL_RenderClear(renderer);
-
-    if (score % 30 == 0) {  // Mỗi khi score chia hết cho 30
-        int bgIndex = (score / 30) % 4; // Lấy chỉ số background (0, 1, 2, 3 lặp lại)
-
-        if (bgIndex == 0) {
-            currentBg = background_1;
-            currentLand = land_1;
-        }
-        else if (bgIndex == 1) {
-            currentBg = background_2;
-            currentLand = land_2;
-        }
-        else if (bgIndex == 2) {
-            currentBg = background_3;
-            currentLand = land_3;
-        }
-        else if (bgIndex == 3) {
-            currentBg = background_4;
-            currentLand = land_4;
-        }
-    }
+    
     currentBg->render(renderer);    
-
-    if (score % 50 == 0) {
-        int Bird_index = score / 50 % 2;
-        if (Bird_index == 1) bird = bird_2;
-        else bird = bird_1;
-    }
 
     // Vẽ pipes
     for (auto& pipe : pipes) {

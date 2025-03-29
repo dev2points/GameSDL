@@ -53,8 +53,6 @@ private:
     bool sound_playing;
     bool Fire_work;
 
-    int score  ;   
-
     Uint32 lastSpawnTime; // Lưu thời điểm spawn vật phẩm gần nhất
     Uint32 increase_speed_Time = 0; // Thời điểm tăng tốc độ
     Uint32 decrease_speed_Time = 0; // Thời điểm thay đổi tốc độ

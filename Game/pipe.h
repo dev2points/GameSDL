@@ -6,10 +6,11 @@
 #include <SDL_image.h>
 
 static const int PIPE_WIDTH = 65;
-static const int PIPE_GAP = 200; // Khoảng cách giữa 2 ống
+static const int PIPE_GAP = 250; // Khoảng cách giữa 2 ống
 extern double PIPE_SPEED;
 static const int PIPE_HEIGHT = 373;
 extern int PIPE_SPACING ;
+extern int score;
 
 class Pipe {
 public:

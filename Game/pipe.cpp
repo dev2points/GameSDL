@@ -5,6 +5,7 @@
 
 double PIPE_SPEED = 3;
 int PIPE_SPACING = 300;
+int score = 0;
 
 Pipe::Pipe(SDL_Renderer* renderer, int startX) {
     x = startX;
@@ -16,7 +17,7 @@ Pipe::Pipe(SDL_Renderer* renderer, int startX) {
     if (!upPipeTexture || !lowPipeTexture) {
         std::cout << "Lỗi load pipe: " << IMG_GetError();
     }
-    alpha = 0;
+    //alpha = 0;
     isScored = false;
   
 }
@@ -28,14 +29,15 @@ Pipe::~Pipe() {
 
 void Pipe::update(int last_x) {
     x -= (int) PIPE_SPEED;  // Ống di chuyển sang trái
-
+	if (score > 0 && score % 47 == 0) alpha = true;
+	
     // Nếu ống ra khỏi màn hình, reset lại vị trí
     if (x + PIPE_WIDTH < 0) {
-        x = last_x + PIPE_SPACING ;  // Đưa ống về lại bên phải màn hình
+        if (score > 0 && score % 48 == 0) x = last_x + PIPE_SPACING + 1000;  // Đưa ống về lại bên phải màn hình
+        else x = last_x + PIPE_SPACING;
         gapY = rand() % 200 + 20;
         isScored = false;
     }
-    //std::cout << PIPE_SPEED << std::endl;
 }
 
 int Pipe::getgapY() {

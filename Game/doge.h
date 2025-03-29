@@ -11,6 +11,7 @@ const static int BIRD_WIDTH = 90;
 const static int PAUSE_WIDTH = 26;
 const static int PAUSE_HEIGHT = 28;
 static double velocity;  // vận tốc
+extern bool reverse ;
 
 class Doge {
 private:
@@ -25,6 +26,8 @@ private:
     double gravity = 0.15; // trọng lực
     double maxFallSpeed = 8.0;
     double angle = 0.0;
+
+    
 
     //double championScale = 0.1;  // Bắt đầu champion với kích thước nhỏ
     //bool growing = true;         // Kiểm soát trạng thái phóng to champion
