@@ -12,7 +12,7 @@ class Background {
 private:
     SDL_Texture* texture;
     SDL_Rect src1, dest1, src2, dest2, dest;
-    int scrollX;
+    int scrollX, scrollY;
     int screenWidth, screenHeight;
     bool Center;
 
@@ -23,6 +23,7 @@ public:
     int get_x();
     int get_y();
     void update();
+    void effect_update();
     void render(SDL_Renderer* renderer);
 
     SDL_Texture* getTexture();

@@ -39,7 +39,7 @@ Game::Game(int screenWidth, int screenHeight) {
     sound_end = false;
     sound_playing = false;
 
-    score = 44;     
+    score = 0;     
         
     play = false; // Kiểm tra trạng thái bắt đầu chơi
     running = true; //  Trạng thái bắt đầu chạy chương trình
@@ -57,6 +57,9 @@ Game::Game(int screenWidth, int screenHeight) {
     bird_1 = new Doge(renderer, "assets/image/bird_1.png", 429, 285, 1);
     bird_2 = new Doge(renderer, "assets/image/bird_2.png", 429, 285, 1);
     bird = bird_1;
+
+    effect_1 = new Background(renderer, "assets/image/snow.png", screenWidth, screenheight, 0);
+    effect_2 = new Background(renderer, "assets/image/rain_drop.png", screenWidth, screenheight, 0);
     
     game_over = new Background(renderer, "assets/image/gameOver.png", (screenWidth - 250) / 2, (screenHeight - 209) / 2 -50, 1);
     replay = new Background(renderer, "assets/image/replay.png", (screenWidth - 100) / 2, (screenHeight - 56) / 2 + 100 , 1);
@@ -139,6 +142,7 @@ void Game::setGame(){
     currentLand = land_1;
     Fire_work = false;
 	reverse = false;
+	is_effect = false;
     Pipe::set_speed();
     // Khởi tạo 4 ống với khoảng cách nhau
     for (int i = 0; i < 4; i++) {
@@ -191,7 +195,7 @@ void Game::check() {
     checkPowerUpCollision();
 
     // Kiểm tra va chạm với ống
-    /*/if (!shield) {
+    if (!shield) {
         for (auto& pipe : pipes) {
            SDL_Rect birdRect = bird->getRect(); // Lấy hitbox của Bird
            SDL_Rect topPipeRect = { pipe->getX(), 0, PIPE_WIDTH, pipe->getgapY() }; // Ống trên
@@ -202,7 +206,7 @@ void Game::check() {
                lose = true;
            }
        }
-    }*/
+    }
 
 
     for (auto& pipe : pipes) {
@@ -396,6 +400,19 @@ void Game::update() {
     }
     bird->update();
     if(score >= 50) reverse = (score % 50) < 10;
+    
+    if (score > 0 && !is_effect) {
+        if (score % 25 == 0) {
+            is_effect = true;
+			int x = rand() % 2;
+			if (x == 0) effect = effect_1;
+			else effect = effect_2;
+        }
+    }
+    if (score > 0 && score % 35 == 0) is_effect = false;
+
+	if (is_effect) effect->effect_update();
+	
 
     if (play && !lose) {
         // Tạo vật phẩm mỗi 5 giây
@@ -447,7 +464,6 @@ void Game::render() {
 
     // Vẽ thông báo nếu chưa chơi
     if (!play) message->render(renderer);
-    else if(!lose) render_highscore();
     
 
     // Vẽ vật phẩm hỗ trợ
@@ -462,8 +478,11 @@ void Game::render() {
         replay->render(renderer);
     }
 
+	if (is_effect) effect->render(renderer);
+
     // Vẽ điểm số
     render_score();   
+    if (play && !lose) render_highscore();
     
     if (Fire_work) {
         render_fireworks();

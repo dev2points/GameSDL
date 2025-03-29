@@ -29,7 +29,7 @@ Background::~Background() {
 }
 
 void Background::update() {
-    scrollX -= 1;
+	scrollX -= 1; // Cuộn qua trái
     if (scrollX <= -dest.w) {
         scrollX = 0;
     }
@@ -40,6 +40,20 @@ void Background::update() {
     src2 = { 0, 0, -scrollX, dest.h };
     dest2 = { screenWidth + scrollX * screenWidth / dest.w, 0, -scrollX * screenWidth / dest.w, screenHeight };
 }
+void Background::effect_update() {
+    scrollY += 3;  // Cuộn xuống
+
+    if (scrollY >= dest.h) {
+        scrollY = 0;
+    }
+
+    src1 = { 0, 0, dest.w, dest.h - scrollY };
+    dest1 = { 0, scrollY, screenWidth, screenHeight - scrollY * screenHeight / dest.h };
+
+    src2 = { 0, dest.h - scrollY, dest.w, scrollY };
+    dest2 = { 0, 0, screenWidth, scrollY * screenHeight / dest.h };
+}
+
 
 void Background::render(SDL_Renderer* renderer) {
     if (!Center) {

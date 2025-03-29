@@ -86,10 +86,15 @@ void Doge::update() {
     }
 
     // Kiểm tra nếu chạm đất
-    if (dest.y + BIRD_HEIGHT >= BACKGROUND_HEIGHT) {
-        dest.y = BACKGROUND_HEIGHT - BIRD_HEIGHT; // Đặt Doge đúng vị trí đất
+    if (!reverse && dest.y + BIRD_HEIGHT >= BACKGROUND_HEIGHT) {
+        dest.y = BACKGROUND_HEIGHT - BIRD_HEIGHT; // Đặt Bird đúng vị trí đất
         time = 0; // Reset thời gian rơi
     }    
+    if (reverse && dest.y <= 0) {
+        dest.y = 0; // Đặt Bird đúng vị trí bầu trời 
+        time = 0; // Reset thời gian rơi
+    }
+   
 }
 void Doge::update_src() {
     Uint32 currentTime = SDL_GetTicks();

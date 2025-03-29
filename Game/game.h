@@ -111,6 +111,11 @@ private:
     Background* currentBg;
     Background* nextBg;
 
+	bool is_effect = false;
+    Background* effect;
+	Background* effect_1;
+	Background* effect_2;
+
     Land* currentLand;
     Land* nextLand;
 
