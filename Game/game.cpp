@@ -17,7 +17,7 @@ Game::Game(int screenWidth, int screenHeight) {
         return;
     }
 
-    window = SDL_CreateWindow("Flappy Doge", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, screenWidth, screenHeight, SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow("Flappy Adventure", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, screenWidth, screenHeight, SDL_WINDOW_SHOWN);
     if (!window) {
         std::cout << "Window Creation Failed!\n";
         running = false;
@@ -54,8 +54,8 @@ Game::Game(int screenWidth, int screenHeight) {
     background_4 = new Background(renderer, "assets/image/background_4.png", screenWidth, BACKGROUND_HEIGHT , 0);
     message = new Background(renderer, "assets/image/message.png", (screenWidth - MESSAGE_WIDTH) / 2, (screenHeight - MESSAGE_HEIGHT) / 2 - 50, 1);
 
-    bird_1 = new Doge(renderer, "assets/image/bird_1.png", 429, 285, 1);
-    bird_2 = new Doge(renderer, "assets/image/bird_2.png", 429, 285, 1);
+    bird_1 = new Doge(renderer, "assets/image/bird_1.png", 429, 230, 1);
+    bird_2 = new Doge(renderer, "assets/image/bird_2.png", 429, 230, 1);
     bird = bird_1;
 
     effect_1 = new Background(renderer, "assets/image/snow.png", screenWidth, screenheight, 0);
@@ -137,7 +137,7 @@ void Game::setGame(){
     score = 0;
     bird = bird_1;
     bird->set_x(429);
-    bird->set_y(281);
+    bird->set_y(230);
     currentBg = background_1;
     currentLand = land_1;
     Fire_work = false;

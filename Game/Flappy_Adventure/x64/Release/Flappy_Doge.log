@@ -1,0 +1,22 @@
+﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(534,5): warning MSB8028: The intermediate directory (Flappy_Adventure\x64\Release\) contains files shared from another project (Flappy_Doge.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  game.cpp
+C:\Users\DELL\Desktop\Game\game.cpp(66,68): warning C4305: 'argument': truncation from 'int' to 'bool'
+C:\Users\DELL\Desktop\Game\game.cpp(67,68): warning C4305: 'argument': truncation from 'int' to 'bool'
+C:\Users\DELL\Desktop\Game\game.cpp(299,19): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\DELL\Desktop\Game\game.cpp(345,22): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\DELL\Desktop\Game\game.cpp(587,90): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
+C:\Users\DELL\Desktop\Game\game.cpp(587,90): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\DELL\Desktop\Game\game.cpp(593,95): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
+C:\Users\DELL\Desktop\Game\game.cpp(593,95): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\DELL\Desktop\Game\game.cpp(599,95): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
+C:\Users\DELL\Desktop\Game\game.cpp(599,95): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\DELL\Desktop\Game\game.cpp(605,91): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
+C:\Users\DELL\Desktop\Game\game.cpp(605,91): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\DELL\Desktop\Game\game.cpp(611,90): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
+C:\Users\DELL\Desktop\Game\game.cpp(611,90): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+  Generating code
+  1 of 424 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    1 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  Flappy_Doge.vcxproj -> C:\Users\DELL\Desktop\Game\x64\Release\Flappy_Adventure.exe

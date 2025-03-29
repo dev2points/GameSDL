@@ -1,0 +1,14 @@
+﻿  game.cpp
+C:\Users\DELL\Desktop\Game\game.cpp(252,19): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\DELL\Desktop\Game\game.cpp(280,22): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\DELL\Desktop\Game\game.cpp(511,90): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
+C:\Users\DELL\Desktop\Game\game.cpp(511,90): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\DELL\Desktop\Game\game.cpp(517,94): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
+C:\Users\DELL\Desktop\Game\game.cpp(517,94): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\DELL\Desktop\Game\game.cpp(523,95): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
+C:\Users\DELL\Desktop\Game\game.cpp(523,95): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\DELL\Desktop\Game\game.cpp(529,91): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
+C:\Users\DELL\Desktop\Game\game.cpp(529,91): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\DELL\Desktop\Game\game.cpp(535,90): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
+C:\Users\DELL\Desktop\Game\game.cpp(535,90): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+  Flappy_Doge.vcxproj -> C:\Users\DELL\Desktop\Game\x64\Debug\Flappy_Doge.exe

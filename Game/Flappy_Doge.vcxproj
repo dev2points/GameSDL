@@ -42,8 +42,9 @@
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{527b9a2d-a0ef-4aa6-88aa-2eb8c3dceefe}</ProjectGuid>
-    <RootNamespace>FlappyDoge</RootNamespace>
+    <RootNamespace>FlappyAdventure</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Flappy_Adventure</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
