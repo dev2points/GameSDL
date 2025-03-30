@@ -57,6 +57,8 @@ Hướng dẫn chơi
 
 - Click chuột hoặc nhấn space/up để chơi, sau khi kết thúc lượt chơi click chuột vào nút replay để chơi lại
 
+- Video demo: https://drive.google.com/file/d/1Se51QymCGJop4k_kh0IK8oJWqJQfjgEA/view?usp=sharing
+
 Nguồn tài nguyên sử dụng
 
 - Background: [https://xaydungso.vn/bai-viet-khac/bo-suu-tap-900-background-game-free-mien-phi-tai-xuong-voi-do-phan-giai-cao-vi-cb.html](https://xaydungso.vn/bai-viet-khac/bo-suu-tap-900-background-game-free-mien-phi-tai-xuong-voi-do-phan-giai-cao-vi-cb.html)
