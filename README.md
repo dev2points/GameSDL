@@ -14,5 +14,5 @@ Với Barem dự kiến:
       (điểm của loại (2) và  (3) đánh giá theo số những tính năng tự làm hoặc tự học như âm thanh, nhạc nền, texture, hoạt hình, chuyển động, thuật toán,....) 
     ■	9 -10: Chất lượng ở top 10% của lớp.
 Em mong muốn ngưỡng điểm bài làm của mình đạt được là 9.
-Game được lập trình dựa trên thư viện SDL2 với đầy đủ đồ họa và âm thanh. Game được tự viết với sự trợ giúp của AI trong việc định hướng viết game, các câu lệnh sử dụng thư viện, cải tiến thuật toán.
-Game nổi bật với các vật phẩm hỗ trợ được tạo ra giúp người chơi vượt qua những 
+Game được lập trình dựa trên thư viện SDL2 với đầy đủ đồ họa và âm thanh, tự viết với sự trợ giúp của AI trong việc định hướng viết game, các câu lệnh sử dụng thư viện, cải tiến thuật toán.
+Các thuật toán nổi bật như background cuộn theo thời gian thực, hiệu ứng background khác nhau khi đạt những mốc điểm khác nhau, hàm sinh các vật phẩm hỗ trợ, huy chương cho điểm số đã đạt được
